@@ -10,4 +10,9 @@ class MaterialOutDetail extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public function item()
+    {
+        return $this->belongsTo(Material::class, 'item_id', 'id');
+    }
 }

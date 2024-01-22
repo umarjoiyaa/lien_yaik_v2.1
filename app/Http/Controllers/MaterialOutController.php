@@ -73,7 +73,7 @@ class MaterialOutController extends Controller
 
         foreach ($request->items as $value) {
             $material_out_details = new MaterialOutDetail();
-            $material_out_details->mi_id = $material_outs->id;
+            $material_out_details->mo_id = $material_outs->id;
             $material_out_details->item_id = $value['id'];
             $material_out_details->qty = ($value['qty'] <= 0) ? 1 : $value['qty'];
             $material_out_details->save();

@@ -1,5 +1,5 @@
+let first = true;
 $(document).ready(function () {
-    let first = true;
     $('#batch_id').trigger('change');
     if (typeof (Storage) !== "undefined" && sessionStorage.getItem("savedFinalChecking2")) {
         var savedFinalChecking2 = sessionStorage.getItem("savedFinalChecking2");

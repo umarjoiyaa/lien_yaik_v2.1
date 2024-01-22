@@ -73,23 +73,23 @@ class WarehouseInController extends Controller
             $warehouse_in_details->save();
 
             $product = ProductionOrder::distinct('product_id')
-            ->join('warehouse_ins', 'warehouse_ins.batch_id', '=', 'productions.batch_id')
+            ->join('warehouse_ins', 'warehouse_ins.batch_id', '=', 'production_orders.batch_id')
             ->where('warehouse_ins.id', $warehouse_in->id)
             ->pluck('product_id');
 
-            $pallet = Inventory::where('pellete_id', $value['id'])->first();
-            $pallet->value = (float)$pallet->value + (float)$value["pcs"];
-            $pallet->weight = (float)$pallet->weight + (float)$value["weight"];
-            $pallet->product_id = $product[0]->product_id;
-            $pallet->save();
+            $pellete = Inventory::where('pellete_id', $value['id'])->first();
+            $pellete->value = (float)$pellete->value + (float)$value["pcs"];
+            $pellete->weight = (float)$pellete->weight + (float)$value["weight"];
+            $pellete->product_id = $product[0];
+            $pellete->save();
             
             $actual = Pellete::find($value['id']);
             $actual->previous_batch = $actual->batch;
             $actual->previous_weight = $actual->weight;
             $actual->previous_pcs = $actual->pcs;
             $actual->batch = $request->batch_no;
-            $actual->weight = $pallet->weight;
-            $actual->pcs = $pallet->value;
+            $actual->weight = $pellete->weight;
+            $actual->pcs = $pellete->value;
             $actual->status = 'Warehouse In';
             $actual->save();
 
@@ -156,25 +156,25 @@ class WarehouseInController extends Controller
             $warehouse_in_details->save();
 
             $product = ProductionOrder::distinct('product_id')
-            ->join('warehouse_ins', 'warehouse_ins.batch_id', '=', 'productions.batch_id')
+            ->join('warehouse_ins', 'warehouse_ins.batch_id', '=', 'production_orders.batch_id')
             ->where('warehouse_ins.id', $warehouse_in->id)
             ->pluck('product_id');
 
             $deduct_qty = WarehouseInDetail::where('wi_id', '=', $id)->where('product_id', '=', $product[0]->id)->first();
 
-            $pallet = Inventory::where('pellete_id', $value['id'])->first();
-            $pallet->value = (float)$pallet->value + ((float)$value["pcs"] - (float)$deduct_qty->pcs);
-            $pallet->weight = (float)$pallet->weight + ((float)$value["weight"] - (float)$deduct_qty->weight);
-            $pallet->product_id = $product[0]->product_id;
-            $pallet->save();
+            $pellete = Inventory::where('pellete_id', $value['id'])->first();
+            $pellete->value = (float)$pellete->value + ((float)$value["pcs"] - (float)$deduct_qty->pcs);
+            $pellete->weight = (float)$pellete->weight + ((float)$value["weight"] - (float)$deduct_qty->weight);
+            $pellete->product_id = $product[0];
+            $pellete->save();
             
             $actual = Pellete::find($value['id']);
             $actual->previous_batch = $actual->batch;
             $actual->previous_weight = $actual->weight;
             $actual->previous_pcs = $actual->pcs;
             $actual->batch = $request->batch_no;
-            $actual->weight = $pallet->weight;
-            $actual->pcs = $pallet->value;
+            $actual->weight = $pellete->weight;
+            $actual->pcs = $pellete->value;
             $actual->status = 'Warehouse In';
             $actual->save();
 
@@ -222,5 +222,14 @@ class WarehouseInController extends Controller
         }else{
             return response()->json('Not Get');
         }
+    }
+
+    public function scan($id)
+    {
+        $scan = Pellete::select('pelletes.pellete_no', 'warehouse_in_details.pellete_id')
+        ->join('warehouse_in_details', 'pelletes.id', '=', 'warehouse_in_details.pellete_id')
+        ->where('warehouse_in_details.wi_id', $id)
+        ->get();
+        return view('warehouses.warehouse-in.scan', compact('scan'));
     }
 }

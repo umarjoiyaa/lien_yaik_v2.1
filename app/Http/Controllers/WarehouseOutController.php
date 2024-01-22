@@ -67,20 +67,20 @@ class WarehouseOutController extends Controller
         foreach ($request->pelletes as $value) {
             $warehouse_out_details = new WarehouseOutDetail();
             $warehouse_out_details->pellete_id = $value['id'];
-            $warehouse_out_details->wi_id = $warehouse_out->id;
+            $warehouse_out_details->wo_id = $warehouse_out->id;
             $warehouse_out_details->weight = $value['weight'] ?? 0;
             $warehouse_out_details->pcs = $value['pcs'] ?? 0;
             $warehouse_out_details->save();
 
             $product = ProductionOrder::distinct('product_id')
-            ->join('warehouse_outs', 'warehouse_outs.batch_id', '=', 'productions.batch_id')
+            ->join('warehouse_outs', 'warehouse_outs.batch_id', '=', 'production_orders.batch_id')
             ->where('warehouse_outs.id', $warehouse_out->id)
             ->pluck('product_id');
 
             $pallet = Inventory::where('pellete_id', $value['id'])->first();
             $pallet->value = (float)$pallet->value - (float)$value["pcs"];
             $pallet->weight = (float)$pallet->weight - (float)$value["weight"];
-            $pallet->product_id = $product[0]->product_id;
+            $pallet->product_id = $product[0];
             $pallet->save();
             
             $actual = Pellete::find($value['id']);
@@ -119,7 +119,7 @@ class WarehouseOutController extends Controller
         $batches = Batch::whereIn('id', $batchIdsWithoutWarehouseOut)->get();
 
         $warehouse_out = WarehouseOut::find($id);
-        $details = WarehouseOutDetail::where('wi_id', '=', $id)->with('pellete')->get();
+        $details = WarehouseOutDetail::where('wo_id', '=', $id)->with('pellete')->get();
 
         Helper::logSystemActivity('WareHouse Out', 'WareHouse Out Edit');
         return view('warehouses.warehouse-out.edit', compact('batches', 'details', 'warehouse_out'));
@@ -145,27 +145,27 @@ class WarehouseOutController extends Controller
 
         $total_pcs = 0;
         
-        $delete = WarehouseOutDetail::where('wi_id', '=', $id);
+        $delete = WarehouseOutDetail::where('wo_id', '=', $id);
 
         foreach ($request->pelletes as $value) {
             $warehouse_out_details = new WarehouseOutDetail();
             $warehouse_out_details->pellete_id = $value['id'];
-            $warehouse_out_details->wi_id = $warehouse_out->id;
+            $warehouse_out_details->wo_id = $warehouse_out->id;
             $warehouse_out_details->weight = $value['weight'] ?? 0;
             $warehouse_out_details->pcs = $value['pcs'] ?? 0;
             $warehouse_out_details->save();
 
             $product = ProductionOrder::distinct('product_id')
-            ->join('warehouse_outs', 'warehouse_outs.batch_id', '=', 'productions.batch_id')
+            ->join('warehouse_outs', 'warehouse_outs.batch_id', '=', 'production_orders.batch_id')
             ->where('warehouse_outs.id', $warehouse_out->id)
             ->pluck('product_id');
 
-            $deduct_qty = WarehouseOutDetail::where('wi_id', '=', $id)->where('product_id', '=', $product[0]->id)->first();
+            $deduct_qty = WarehouseOutDetail::where('wo_id', '=', $id)->where('product_id', '=', $product[0]->id)->first();
 
             $pallet = Inventory::where('pellete_id', $value['id'])->first();
             $pallet->value = (float)$pallet->value - ((float)$value["pcs"] + (float)$deduct_qty->pcs);
             $pallet->weight = (float)$pallet->weight - ((float)$value["weight"] + (float)$deduct_qty->weight);
-            $pallet->product_id = $product[0]->product_id;
+            $pallet->product_id = $product[0];
             $pallet->save();
             
             $actual = Pellete::find($value['id']);
@@ -193,17 +193,26 @@ class WarehouseOutController extends Controller
 
     public function destroy($id){
         $warehouse_out = WarehouseOut::find($id);
-        $details = WarehouseOutDetail::where('wi_id', '=', $id)->get();
+        $details = WarehouseOutDetail::where('wo_id', '=', $id)->get();
         foreach ($details as $value) {
-            $deduct_qty = WarehouseOutDetail::where('wi_id', '=', $id)->where('pellete_id', '=', $value->pellete_id)->first();
+            $deduct_qty = WarehouseOutDetail::where('wo_id', '=', $id)->where('pellete_id', '=', $value->pellete_id)->first();
             $pellete = Inventory::where('pellete_id', '=', $value->pellete_id)->first();
             $pellete->value = (float)$pellete->value + (float)$deduct_qty->pcs;
             $pellete->weight = (float)$pellete->weight + (float)$deduct_qty->weight;
             $pellete->save();
         }
-        WarehouseOutDetail::where('wi_id', '=', $id)->delete();
+        WarehouseOutDetail::where('wo_id', '=', $id)->delete();
         $warehouse_out->delete();
         Helper::logSystemActivity('WareHouse Out', 'WareHouse Out Delete');
         return redirect()->route('warehouse-out.index')->with('custom_success', 'WareHouse Out has been Succesfully Deleted!');
+    }
+
+    public function scan($id)
+    {
+        $scan = Pellete::select('pelletes.pellete_no', 'warehouse_out_details.pellete_id')
+        ->join('warehouse_out_details', 'pelletes.id', '=', 'warehouse_out_details.pellete_id')
+        ->where('warehouse_out_details.wo_id', $id)
+        ->get();
+        return view('warehouses.warehouse-out.scan', compact('scan'));
     }
 }

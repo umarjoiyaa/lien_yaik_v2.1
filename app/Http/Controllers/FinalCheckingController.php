@@ -25,9 +25,9 @@ class FinalCheckingController extends Controller
             Auth::user()->hasPermissionTo('Final Checking Edit') ||
             Auth::user()->hasPermissionTo('Final Checking Delete')
         ) {
-            $final_checkings = final_checking::all();
+            $final_checkings = FinalChecking::all();
             Helper::logSystemActivity('Final Checking', 'Final Checking List');
-            return view('productions.work-in-progress.final_checking.index', compact('final_checkings'));
+            return view('productions.work-in-progress.final-checking.index', compact('final_checkings'));
         }
         return back()->with('custom_errors', 'You don`t have Right Permission');
     }
@@ -97,7 +97,7 @@ class FinalCheckingController extends Controller
             $pellete->batch = $request->batch_no;
             $pellete->weight = $value['weight'];
             $pellete->pcs = $value['pcs'];
-            $pellete->status = 'final_checking';
+            $pellete->status = 'Final Checking';
             $pellete->save();
         }
 
@@ -194,7 +194,7 @@ class FinalCheckingController extends Controller
             $pellete->batch = $request->batch_no;
             $pellete->weight = $value['weight'];
             $pellete->pcs = $value['pcs'];
-            $pellete->status = 'final_checking';
+            $pellete->status = 'Final Checking';
             $pellete->save();
         }
 

@@ -235,7 +235,8 @@
                                                     <td><input type="checkbox"></td>
                                                     <td><input type="hidden"
                                                             value="{{ $material->id }}">{{ $material->name }}</td>
-                                                    <td>{{ $material->type == 1 ? 'In-House' : 'Out-Source' }}</td>
+                                                    <td><input type="hidden"
+                                                        value="{{ $material->value }}">{{ $material->type == 1 ? 'In-House' : 'Out-Source' }}</td>
                                                     <td>{{ $material->category }}</td>
                                                     <td>{{ $material->uoms }}</td>
                                                     <td>{{ $material->suppliers }}</td>

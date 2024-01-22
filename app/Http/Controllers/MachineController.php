@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Machine;
+use App\Models\Press;
+use App\Models\ProductionOrder;
 use App\Models\TemperatureMoisture;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -74,6 +76,14 @@ class MachineController extends Controller
 
     public function  destroy($id){
         $machine = Machine::find($id);
+        $Production = ProductionOrder::where('machine_id', '=', $id)->first();
+        $Press = Press::where('machine_id', '=', $id)->first();
+
+        if($Production){
+            return back()->with('custom_errors', 'This MACHINE is used in PRODUCTION ORDER!');
+        }else if($Press){
+            return back()->with('custom_errors', 'This MACHINE is used in PRESS!');
+        }
         $machine->delete();
         Helper::logSystemActivity('Machine', 'Machine Delete');
         return redirect()->route('machine.index')->with('custom_success', 'Machine has been Succesfully Deleted!');
