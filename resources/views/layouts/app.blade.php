@@ -377,8 +377,8 @@
                         success: function(data) {
                             if (data != null) {
                                 $('.order-notification').html('');
-                                $('.order-length').text($(data).find('input').length);
-                                $('.order-notification').append(data);
+                                $('.order-length').text(data.length);
+                                $('.order-notification').append(data.output);
                             }
                         }
                     });

@@ -17,6 +17,7 @@ class NotificationController extends Controller
         $purchases = PurchaseOrder::where('status', '=', 0)->get();
 
         $output = '';
+        $length = 0;
 
         foreach ($purchases as $order) {
             $orderDetail = PurchaseOrderDetail::where('order_id', '=', $order->id)->whereNull('accept')->whereNull('reject')->get();
@@ -34,11 +35,12 @@ class NotificationController extends Controller
                                     </div>
                                 </div>
                                 <hr>';
+                    $length++;
                 }
             }
         }
 
-        return response()->json($output);
+        return response()->json(['output' => $output, 'length' => $length]);
     }
 
     public function review($id)
