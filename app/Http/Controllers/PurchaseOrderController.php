@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Mail\OrderEmail;
 use App\Models\Material;
 use App\Models\Product;
 use App\Models\ProductionOrder;
@@ -12,6 +13,7 @@ use App\Models\User;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseOrderController extends Controller
 {
@@ -82,6 +84,11 @@ class PurchaseOrderController extends Controller
             $detail->order_id = $purchase->id;
             $detail->user = $approved;
             $detail->save();
+
+            $user = User::find($approved);
+            $email = new OrderEmail($user, Auth::user()->name, $purchase);
+
+            Mail::to($user->email)->send($email);
         }
 
         Helper::logSystemActivity('Purchase Order', 'Purchase Order Create');
