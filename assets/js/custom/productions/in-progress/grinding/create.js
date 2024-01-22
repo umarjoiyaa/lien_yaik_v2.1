@@ -1,5 +1,5 @@
+let first = true;
 $(document).ready(function () {
-    let first = true;
     $('#batch_id').trigger('change');
     if (typeof (Storage) !== "undefined" && sessionStorage.getItem("savedGrinding2")) {
         var savedGrinding2 = sessionStorage.getItem("savedGrinding2");

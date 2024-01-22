@@ -1,5 +1,5 @@
+let first = true;
 $(document).ready(function () {
-    let first = true;
     $('#batch_id').trigger('change');
     $('#myTable1').dataTable();
     $('#myTable2').dataTable();

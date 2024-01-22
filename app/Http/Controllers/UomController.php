@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\Material;
 use App\Models\Uom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,6 +95,10 @@ class UomController extends Controller
         }
 
         $uom = UOM::find($id);
+        $Materials = Material::whereJsonContains('uom_id', '=', $id)->first();
+        if($Materials){
+            return back()->with('custom_errors', 'This UOM is used in MATERIAL!');
+        }
         $uom->delete();
         Helper::logSystemActivity('UOM', 'UOM Delete');
         return redirect()->route('uom.index')->with('custom_success', 'UOM has been Succesfully Deleted!');

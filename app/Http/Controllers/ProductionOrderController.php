@@ -34,7 +34,7 @@ class ProductionOrderController extends Controller
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
 
-        $orders = PurchaseOrder::select('id','order_no')->where('status', 2)->get();
+        $orders = PurchaseOrder::select('id','order_no')->where('status', 1)->get();
         $batches = Batch::all();
         $machines = Machine::all();
 
@@ -42,20 +42,22 @@ class ProductionOrderController extends Controller
             'materials.id',
             'materials.name',
             'materials.type',
+            'material_inventories.value',
             'categories.name as category',
             DB::raw('GROUP_CONCAT(DISTINCT uoms.name) as uoms'),
             DB::raw('GROUP_CONCAT(DISTINCT suppliers.name) as suppliers')
         )
             ->join('categories', 'materials.category_id', '=', 'categories.id')
+            ->join('material_inventories', 'materials.id', '=', 'material_inventories.item_id')
             ->join('uoms', function ($join1) {
                 $join1->whereRaw('JSON_SEARCH(materials.uom_ids, "one", uoms.id) IS NOT NULL');
             })
             ->join('suppliers', function ($join2) {
                 $join2->whereRaw('JSON_SEARCH(materials.supplier_ids, "one", suppliers.id) IS NOT NULL');
             })
-            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type')
+            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type','material_inventories.value')
             ->get();
-            
+
         Helper::logSystemActivity('Production Order', 'Production Order Create');
         return view('productions.production-order.create', compact('orders', 'batches', 'machines', 'materials'));
     }
@@ -120,7 +122,7 @@ class ProductionOrderController extends Controller
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
 
-        $orders = PurchaseOrder::select('id','order_no')->where('status', 2)->get();
+        $orders = PurchaseOrder::select('id','order_no')->where('status', 1)->get();
         $batches = Batch::all();
         $machines = Machine::all();
         $production = ProductionOrder::find($id);
@@ -130,18 +132,20 @@ class ProductionOrderController extends Controller
             'materials.id',
             'materials.name',
             'materials.type',
+            'material_inventories.value',
             'categories.name as category',
             DB::raw('GROUP_CONCAT(DISTINCT uoms.name) as uoms'),
             DB::raw('GROUP_CONCAT(DISTINCT suppliers.name) as suppliers')
         )
             ->join('categories', 'materials.category_id', '=', 'categories.id')
+            ->join('material_inventories', 'materials.id', '=', 'material_inventories.item_id')
             ->join('uoms', function ($join1) {
                 $join1->whereRaw('JSON_SEARCH(materials.uom_ids, "one", uoms.id) IS NOT NULL');
             })
             ->join('suppliers', function ($join2) {
                 $join2->whereRaw('JSON_SEARCH(materials.supplier_ids, "one", suppliers.id) IS NOT NULL');
             })
-            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type')
+            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type','material_inventories.value')
             ->get();
 
         Helper::logSystemActivity('Production Order', 'Production Order Edit');

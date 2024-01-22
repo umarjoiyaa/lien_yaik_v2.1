@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\Drilling;
+use App\Models\FinalChecking;
+use App\Models\Grinding;
+use App\Models\Press;
+use App\Models\PurchaseOrder;
+use App\Models\Shotblast;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -165,6 +171,25 @@ class UserController extends Controller
         $user = User::find($id);
         if ($id == Auth::user()->id) {
             return back()->with('custom_errors', 'You Can`t delete yourself. Ask super admin to do that.');
+        }
+        $shotblast = Shotblast::where('operator_id', '=', $id)->first();
+        $grinding = Grinding::where('operator_id', '=', $id)->first();
+        $drilling = Drilling::where('operator_id', '=', $id)->first();
+        $final_checking = FinalChecking::where('operator_id', '=', $id)->first();
+        $press = Press::where('operator_id', '=', $id)->first();
+        $purchase = PurchaseOrder::where('issued', '=', $id)->first();
+        if($shotblast){
+            return back()->with('custom_errors', 'This USER is used in SHOTBLAST!');
+        }elseif($grinding){
+            return back()->with('custom_errors', 'This USER is used in GRINDING!');
+        }elseif($drilling){
+            return back()->with('custom_errors', 'This USER is used in DRILLING!');
+        }elseif($final_checking){
+            return back()->with('custom_errors', 'This USER is used in FINAL CHECKING!');
+        }elseif($press){
+            return back()->with('custom_errors', 'This USER is used in PRESS!');
+        }elseif($purchase){
+            return back()->with('custom_errors', 'This USER is used in PURCHASE ORDER!');
         }
         $user->delete();
         Helper::logSystemActivity('User', 'User Delete');

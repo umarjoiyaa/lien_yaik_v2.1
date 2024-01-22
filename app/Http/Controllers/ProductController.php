@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Product;
+use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -124,6 +125,10 @@ class ProductController extends Controller
         }
 
         $product = Product::find($id);
+        $Purchase = PurchaseOrder::where('product_id', '=', $id)->first();
+        if($Purchase){
+            return back()->with('custom_errors', 'This PRODUCT is used in PURCHASE ORDER!');
+        }
         $product->delete();
         Helper::logSystemActivity('Product', 'Product Delete');
         return redirect()->route('product.index')->with('custom_success', 'Product has been Succesfully Deleted!');

@@ -52,6 +52,7 @@ $("#addrows").on("click", function () {
         var third = $(checkedRow).find('td:eq(3)')
         var forth = $(checkedRow).find('td:eq(4)');
         var fifth = $(checkedRow).find('td:eq(5)');
+        var value = $(checkedRow).find('td:eq(2) input').val();
 
         var item = first.find('input').val();
         var item1 = first.text();
@@ -59,7 +60,6 @@ $("#addrows").on("click", function () {
         var category = third.text();
         var uom = forth.text();
         var supplier = fifth.text();
-        var avail_value = $('#available_quantity').val();
 
         var newRow = $(`<tr>
                     <td name='type'>${type}</td>
@@ -67,7 +67,7 @@ $("#addrows").on("click", function () {
                     <td name='category'>${category}</td>
                     <td name='uoms'>${uom}</td>
                     <td name='suppliers'>${supplier}</td>
-                    <td><input type='number' value="${avail_value}" id="available_qty_${$length}" class='form-control available_qty' name='items[${$length}][available]' readonly></td>
+                    <td><input type='number' value="${value}" id="available_qty_${$length}" class='form-control available_qty' name='items[${$length}][available]' readonly></td>
                     <td><input type='number' value="" id="required_qty_${$length}" class='form-control required_qty' name='items[${$length}][required]'></td>
                     <td><input type='number' value="" id="need_${$length}" class='form-control need' name='items[${$length}][need]' readonly></td>
                     <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
@@ -89,6 +89,7 @@ $(document).on("click", ".delete_row", function () {
     var checkedRow = $(this).closest('tr');
 
     var type = $(checkedRow).find('td:eq(0)').text();
+    var value = $(checkedRow).find('td:eq(5) input').val();
     var id = $(checkedRow).find('td:eq(1) input').val();
     var item = $(checkedRow).find('td:eq(1)').text();
     var categories = $(checkedRow).find('td:eq(2)').text();
@@ -98,7 +99,7 @@ $(document).on("click", ".delete_row", function () {
     var newRow = $(`<tr>
         <td><input type='checkbox'></td>
         <td><input type="hidden" value="${id}"/>${item}</td>
-        <td>${type}</td>
+        <td><input type="hidden" value="${value}"/>${type}</td>
         <td>${categories}</td>
         <td>${uoms}</td>
         <td>${suppliers}</td>

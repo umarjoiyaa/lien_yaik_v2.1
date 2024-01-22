@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\Material;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +101,10 @@ class SupplierController extends Controller
         }
 
         $supplier = Supplier::find($id);
+        $Materials = Material::whereJsonContains('supplier_id', '=', $id)->first();
+        if($Materials){
+            return back()->with('custom_errors', 'This SUPPLIER is used in MATERIAL!');
+        }
         $supplier->delete();
         Helper::logSystemActivity('Supplier', 'Supplier Delete');
         return redirect()->route('supplier.index')->with('custom_success', 'Supplier has been Succesfully Deleted!');

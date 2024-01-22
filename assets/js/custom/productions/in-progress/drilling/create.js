@@ -1,5 +1,5 @@
+let first = true;
 $(document).ready(function () {
-    let first = true;
     $('#batch_id').trigger('change');
     if (typeof (Storage) !== "undefined" && sessionStorage.getItem("savedDrilling2")) {
         var savedDrilling2 = sessionStorage.getItem("savedDrilling2");

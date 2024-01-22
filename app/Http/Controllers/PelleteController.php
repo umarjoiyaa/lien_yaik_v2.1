@@ -3,8 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\DrillingGoodPellete;
+use App\Models\DrillingPellete;
+use App\Models\DrillingRejectPellete;
+use App\Models\FinalCheckingGoodPellete;
+use App\Models\FinalCheckingPellete;
+use App\Models\FinalCheckingRejectPellete;
+use App\Models\GrindingGoodPellete;
+use App\Models\GrindingPellete;
+use App\Models\GrindingRejectPellete;
 use App\Models\Inventory;
 use App\Models\Pellete;
+use App\Models\Shotblast;
+use App\Models\ShotblastDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -96,6 +107,26 @@ class PelleteController extends Controller
         }
         
         $pellete = Pellete::find($id);
+        $Shot_blast = ShotblastDetail::where('pellete_id', '=', $id)->first();
+        $Grinding_pellete = GrindingPellete::where('pellete_id', '=', $id)->first();
+        $Grinding_good_pellete = GrindingGoodPellete::where('pellete_id', '=', $id)->first();
+        $Grinding_reject_pellete = GrindingRejectPellete::where('pellete_id', '=', $id)->first();
+        $Drilling_pellete = DrillingPellete::where('pellete_id', '=', $id)->first();
+        $Drilling_good_pellete = DrillingGoodPellete::where('pellete_id', '=', $id)->first();
+        $Drilling_reject_pellete = DrillingRejectPellete::where('pellete_id', '=', $id)->first();
+        $FinalChecking_pellete = FinalCheckingPellete::where('pellete_id', '=', $id)->first();
+        $FinalChecking_good_pellete = FinalCheckingGoodPellete::where('pellete_id', '=', $id)->first();
+        $FinalChecking_reject_pellete = FinalCheckingRejectPellete::where('pellete_id', '=', $id)->first();
+
+        if($Shot_blast){
+            return back()->with('custom_errors', 'This PELLETE is used in SHOTBLAST!');
+        }elseif($Grinding_pellete || $Grinding_good_pellete || $Grinding_reject_pellete){
+            return back()->with('custom_errors', 'This PELLETE is used in GRINDING!');
+        }elseif($Drilling_pellete || $Drilling_good_pellete || $Drilling_reject_pellete){
+            return back()->with('custom_errors', 'This PELLETE is used in DRILLING!');
+        }elseif($FinalChecking_pellete || $FinalChecking_good_pellete || $FinalChecking_reject_pellete){
+            return back()->with('custom_errors', 'This PELLETE is used in FINAL CHECKING!');
+        }
         $pellete->delete();
 
         Helper::logSystemActivity('Pellete', 'Pellete Delete');

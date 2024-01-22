@@ -54,6 +54,10 @@
                                 <td>{{ Carbon\Carbon::parse($warehouse_in->date)->format('Y-m-d') }}</td>
                                 <td>{{ $warehouse_in->user->name }}</td>
                                 <td>
+                                    <a href="{{ route('warehouse-in.scan', $warehouse_in->id) }}"><iconify-icon
+                                        icon="arcticons:lexmark-print" width="20" height="20"
+                                        style="color: black;"></iconify-icon></a> 
+
                                     <a href="{{ route('warehouse-in.edit', $warehouse_in->id) }}"><iconify-icon
                                             icon="akar-icons:edit" width="20" height="20"
                                             style="color: steelblue;"></iconify-icon></a>

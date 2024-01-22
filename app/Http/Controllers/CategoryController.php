@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Category;
+use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -100,6 +101,10 @@ class CategoryController extends Controller
         }
 
         $category = Category::find($id);
+        $Material = Material::where('category_id', '=', $id)->first();
+        if($Material){
+            return back()->with('custom_errors', 'This CATEGORY is used in MATERIAL!');
+        }
         $category->delete();
         Helper::logSystemActivity('Category', 'Category Delete');
         return redirect()->route('category.index')->with('custom_success', 'Category has been Succesfully Deleted!');

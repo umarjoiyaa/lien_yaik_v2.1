@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Models\Material;
 use App\Models\Product;
+use App\Models\ProductionOrder;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\User;
@@ -158,6 +159,10 @@ class PurchaseOrderController extends Controller
         }
 
         $purchase = PurchaseOrder::find($id);
+        $Production = ProductionOrder::where('order_id', '=', $id)->first();
+        if($Production){
+            return back()->with('custom_errors', 'This PURCHASE ORDER is used in PRODUCTION ORDER!');
+        }
         $purchase->delete();
         Helper::logSystemActivity('Purchase Order', 'Purchase Order Delete');
         return redirect()->route('purchase.index')->with('custom_success', 'Purchase Order has been Succesfully Deleted!');

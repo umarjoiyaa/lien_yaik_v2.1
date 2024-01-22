@@ -19,10 +19,10 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label for="">SELECT (FROM - TO)</label>
-                                <input id='daterangepicker' class="form-control text-center">
+                                <input id='daterangepicker' class="form-control text-center" value="{{$startDate}} - {{$endDate}}">
                             </div>
-                            <input type="hidden" id="start" name="start_date">
-                            <input type="hidden" id="end" name="end_date">
+                            <input type="hidden" id="start" name="start_date" value="{{$startDate}}">
+                            <input type="hidden" id="end" name="end_date" value="{{$endDate}}">
                         </div>
                         <div class="col-sm-2 mt-6">
                             <button type="submit" class="btn btn btn-info">Generate Report</button>
@@ -63,23 +63,22 @@
                         </thead>
                         <tbody>
                             @if (isset($data))
+                           
                                 @foreach ($data as $row)
                                     <tr>
-                                        <td>{{ $row->pellete }}</td>
-                                        @if (isset($row->in))
-                                            @foreach ($row->in as $in)
+                                        <td>{{ $row['pellete'] }}</td>
+                                        @if (isset($row['in']))
+                                            @foreach ($row['in'] as $in)
                                                 <td>{{ $in }}</td>
                                             @endforeach
-                                        @else
                                         @endif
-                                        <td style="color: green;">{{ $row->totalin }}</td>
-                                        @if (isset($row->out))
-                                            @foreach ($row->out as $out)
+                                        <td style="color: green;">{{ $row['totalin'] }}</td>
+                                        @if (isset($row['out']))
+                                            @foreach ($row['out'] as $out)
                                                 <td>{{ $out }}</td>
                                             @endforeach
-                                        @else
                                         @endif
-                                        <td style="color: red;">{{ $row->totalout }}</td>
+                                        <td style="color: red;">{{ $row['totalout'] }}</td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -99,6 +98,13 @@
             locale: {
                 format: 'YYYY-MM-DD'
             }
+        });
+
+        $('#daterangepicker').on('apply.daterangepicker', function(ev, picker) {
+            var startDate = picker.startDate.format('YYYY-MM-DD');
+            var endDate = picker.endDate.format('YYYY-MM-DD');
+            $("#start").val(startDate);
+            $("#end").val(endDate);
         });
     </script>
 @endpush

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Batch;
+use App\Models\ProductionOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -98,6 +99,10 @@ class BatchController extends Controller
         }
         
         $batch = Batch::find($id);
+        $production = ProductionOrder::where('batch_id', '=', $id)->first();
+        if($production){
+            return back()->with('custom_errors', 'This BATCH is used in PRODUCTION ORDER!');
+        }
         $batch->delete();
 
         Helper::logSystemActivity('Batch', 'Batch Delete');
