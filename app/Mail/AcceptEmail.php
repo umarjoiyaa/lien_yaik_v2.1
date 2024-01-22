@@ -9,50 +9,57 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MyEmail extends Mailable
+class AcceptEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
+     *
+     * @return void
      */
 
-     public function build()
-    {
-        return $this->view('emails.myemail')->subject('Subject of the email');
-    }
+    public $user;
+    public $authUserName;
+    public $purchase;
 
-    public function __construct()
+    public function __construct($user, $authUserName, $purchase)
     {
-        //
+        $this->user = $user;
+        $this->authUserName = $authUserName;
+        $this->purchase = $purchase;
     }
 
     /**
      * Get the message envelope.
+     *
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope(): Envelope
+    public function envelope()
     {
         return new Envelope(
-            subject: 'My Email',
+            subject: 'Order Accepted',
         );
     }
 
     /**
      * Get the message content definition.
+     *
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content(): Content
+    public function content()
     {
         return new Content(
-            view: 'emails.myemail',
+            view: 'emails.accept',
         );
     }
 
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array
      */
-    public function attachments(): array
+    public function attachments()
     {
         return [];
     }

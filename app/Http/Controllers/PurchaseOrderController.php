@@ -153,6 +153,11 @@ class PurchaseOrderController extends Controller
             $detail->order_id = $purchase->id;
             $detail->user = $approved;
             $detail->save();
+
+            $user = User::find($approved);
+            $email = new OrderEmail($user, Auth::user()->name, $purchase);
+
+            Mail::to($user->email)->send($email);
         }
 
         Helper::logSystemActivity('Purchase Order', 'Purchase Order Update');

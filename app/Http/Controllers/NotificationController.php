@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\MyEmail;
+use App\Mail\AcceptEmail;
+use App\Mail\RejectEmail;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\User;
@@ -58,9 +59,7 @@ class NotificationController extends Controller
 
         $user = User::where('id', '=', $order->issued)->first();
 
-        $auth = Auth::user();
-
-        $accepted = PurchaseOrderDetail::where('order_id', '=', $request->id)->where('user', '=', $auth->id)->first();
+        $accepted = PurchaseOrderDetail::where('order_id', '=', $request->id)->where('user', '=', Auth::user()->id)->first();
         $accepted->accept = "1";
         if($request->remarks != null){
             $accepted->remarks = $request->remarks;
@@ -73,7 +72,8 @@ class NotificationController extends Controller
             $accept->save();
         }
  
-        Mail::to($user->email)->send(new MyEmail());
+        $email = new AcceptEmail($user, Auth::user()->name, $order);
+        Mail::to($user->email)->send($email);
 
         return response()->json($request->id);
     }
@@ -86,9 +86,7 @@ class NotificationController extends Controller
 
         $user = User::where('id', '=', $order->issued)->first();
 
-        $auth = Auth::user();
-
-        $rejected = PurchaseOrderDetail::where('order_id', '=', $request->id)->where('user', '=', $auth->id)->first();
+        $rejected = PurchaseOrderDetail::where('order_id', '=', $request->id)->where('user', '=', Auth::user()->id)->first();
         $rejected->reject = "1";
         if($request->remarks != null){
             $rejected->remarks = $request->remarks;
@@ -101,7 +99,8 @@ class NotificationController extends Controller
             $reject->save();
         }
  
-        Mail::to($user->email)->send(new MyEmail());
+        $email = new RejectEmail($user, Auth::user()->name, $order);
+        Mail::to($user->email)->send($email);
 
         return response()->json($request->id);
     }

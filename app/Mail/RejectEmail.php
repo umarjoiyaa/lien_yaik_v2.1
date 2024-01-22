@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderEmail extends Mailable
+class RejectEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,11 +18,10 @@ class OrderEmail extends Mailable
      *
      * @return void
      */
-    
+
     public $user;
     public $authUserName;
     public $purchase;
-
     public function __construct($user, $authUserName, $purchase)
     {
         $this->user = $user;
@@ -38,7 +37,7 @@ class OrderEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Order Assign',
+            subject: 'Order Rejected',
         );
     }
 
@@ -50,7 +49,7 @@ class OrderEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'emails.order',
+            view: 'emails.reject',
         );
     }
 
