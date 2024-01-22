@@ -13,7 +13,7 @@
 
     <p>This is the body of your email. You can include HTML and Blade syntax here.</p>
 
-    <p>User Name: {{ $user->name }}</p>
+    <p>User Name: UMAR</p>
 
     <p>Thank you for using our application.</p>
 

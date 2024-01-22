@@ -56,7 +56,7 @@ class NotificationController extends Controller
         $order->status = "1";
         $order->save();
 
-        $user = User::where('name', '=', $order->issued)->first();
+        $user = User::where('id', '=', $order->issued)->first();
 
         $auth = Auth::user();
 
@@ -84,7 +84,7 @@ class NotificationController extends Controller
         $order->status = "2";
         $order->save();
 
-        $user = User::where('name', '=', $order->issued)->first();
+        $user = User::where('id', '=', $order->issued)->first();
 
         $auth = Auth::user();
 
