@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Mail\MyEmail;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
+class NotificationController extends Controller
+{
+    public function index()
+    {
+        $purchases = PurchaseOrder::where('status', '=', 0)->get();
+
+        $output = '';
+
+        foreach ($purchases as $order) {
+            $orderDetail = PurchaseOrderDetail::where('order_id', '=', $order->id)->whereNull('accept')->whereNull('reject')->get();
+            foreach ($orderDetail as $detail) {
+                if (Auth::user()->id == $detail->user && $detail->reject == null) {
+                    $output .= '<div class="media media-sm p-4 mb-0">
+                                    <div class="media-body">
+                                        <a>
+                                            <span class="title mb-0">Hey '.Auth::user()->name.'</span>
+                                            <span class="discribe" style="width: auto !important;">'. $order->order_no .' Assign to you from '. $order->user->name .'</span>
+                                            <div class="buttons">
+                                                <a href="'. url('productions/purchase-order/review/'.$order->id) .'" class="btn btn-sm btn-primary text-white shadow-none review">Review</a>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr>';
+                }
+            }
+        }
+
+        return response()->json($output);
+    }
+
+    public function review($id)
+    {
+        $review = PurchaseOrder::find($id);
+        $users = User::all();
+        return view('productions.purchase-order.review', compact('review', 'users'));
+    }
+
+    function accept(Request $request)
+    {
+        $order = PurchaseOrder::find($request->id);
+        $order->status = "1";
+        $order->save();
+
+        $user = User::where('name', '=', $order->issued)->first();
+
+        $auth = Auth::user();
+
+        $accepted = PurchaseOrderDetail::where('order_id', '=', $request->id)->where('user', '=', $auth->id)->first();
+        $accepted->accept = "1";
+        if($request->remarks != null){
+            $accepted->remarks = $request->remarks;
+        }
+        $accepted->save();
+
+        $accepts = PurchaseOrderDetail::where('order_id', '=', $request->id)->whereNull('accept')->get();
+        foreach($accepts as $accept){
+            $accept->accept = "0";
+            $accept->save();
+        }
+ 
+        Mail::to($user->email)->send(new MyEmail());
+
+        return response()->json($request->id);
+    }
+
+    function reject(Request $request)
+    {
+        $order = PurchaseOrder::find($request->id);
+        $order->status = "2";
+        $order->save();
+
+        $user = User::where('name', '=', $order->issued)->first();
+
+        $auth = Auth::user();
+
+        $rejected = PurchaseOrderDetail::where('order_id', '=', $request->id)->where('user', '=', $auth->id)->first();
+        $rejected->reject = "1";
+        if($request->remarks != null){
+            $rejected->remarks = $request->remarks;
+        }
+        $rejected->save();
+
+        $rejects = PurchaseOrderDetail::where('order_id', '=', $request->id)->whereNull('reject')->get();
+        foreach($rejects as $reject){
+            $reject->reject = "0";
+            $reject->save();
+        }
+ 
+        Mail::to($user->email)->send(new MyEmail());
+
+        return response()->json($request->id);
+    }
+}

@@ -1,0 +1,273 @@
+.dataTables_paginate.paging_simple_numbers .paginate_button.current {
+    background: none !important;
+    background-color: #FBEA9D !important;
+    border-color: #FBEA9D !important;
+    color: #ffffff !important;
+}
+
+nav {
+    background-color: #FAE275 !important;
+}
+
+label {
+    font-size: 12px;
+}
+
+input[type='checkbox'] {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.card-header h5 {
+    margin-top: 9px;
+}
+
+.card {
+    border-radius: 0;
+}
+
+.login {
+    box-shadow: 3px 3px 5px grey;
+    margin-top: 90px;
+}
+
+.js-example-tags {
+    box-shadow: 3px 3px 5px grey;
+    border: none;
+}
+
+*/ .flex {
+    display: flex;
+    justify-content: right;
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.btn-info {
+    justify-content: center;
+    background: #FF5C5C;
+    color: #F7D43B;
+    border: none;
+    transition: 1s;
+}
+
+.btn-danger {
+    justify-content: center;
+    background: #7AA1B8;
+    color: #F7D43B;
+    border: none;
+    transition: 1s;
+}
+
+.btn-danger:hover {
+    justify-content: center;
+    background: #4F7992;
+    color: #F7D43B;
+    border: none;
+    transition: 1s;
+}
+
+.btn-success:hover {
+    justify-content: center;
+    background: #4F7992;
+    border: none;
+    transition: 1s;
+}
+
+.btn-success {
+    justify-content: center;
+    background: #7AA1B8;
+    border: none;
+    transition: 1s;
+}
+
+.btn-info:hover {
+    justify-content: center;
+    color: #FF4747;
+    background: #FAE589 !important;
+    border: none;
+}
+
+.back {
+    display: flex;
+    justify-content: left;
+}
+
+a {
+    text-decoration: none;
+}
+
+.form {
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+}
+
+.forms {
+    border-bottom: 2px solid gray;
+}
+
+.borders {
+    border-right: 2px solid gray;
+}
+
+.bord {
+    border-right: 2px solid gray;
+}
+
+table {
+    color: white;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    width: auto;
+}
+
+#table_list thead th {
+    color: white;
+    text-align: center;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    color: #FF4747 !important;
+    background: #FBEA9D !important;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit
+}
+
+tfoot {
+    display: table-footer-group;
+    vertical-align: middle;
+    border-color: inherit
+}
+
+table>tr {
+    vertical-align: middle;
+}
+
+col {
+    display: table-column
+}
+
+colgroup {
+    display: table-column-group
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit
+}
+
+td,
+th {
+    display: table-cell;
+    vertical-align: inherit;
+    text-align: center !important;
+}
+
+td,
+th input {
+    display: table-cell;
+    vertical-align: inherit;
+    text-align: center !important;
+}
+
+th {
+    font-weight: bold;
+}
+
+caption {
+    display: table-caption;
+    text-align: -webkit-center
+}
+
+tbody tr:nth-child(even) {
+    background: #eee;
+}
+
+#Table tbody tr:nth-child(even) {
+    background: #fff;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 30px;
+    height: 620px;
+    margin-top: -16px;
+}
+
+.columns {
+    float: left;
+    padding: 30px;
+    height: 300px;
+}
+
+.row1:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+}
+
+#myTable thead tr:nth-child(2) {
+    background-color: whitesmoke;
+
+}
+
+#myTable thead tr:nth-child(2) input {
+    justify-content: center;
+
+}
+
+table.dataTable thead>tr>th.sorting_asc:before,
+table.dataTable thead>tr>th.sorting_desc:after,
+table.dataTable thead>tr>td.sorting_asc:before,
+table.dataTable thead>tr>td.sorting_desc:after {
+    opacity: 1 !important;
+}
+
+table.dataTable thead>tr>th.sorting::before,
+table.dataTable thead>tr>th.sorting::after {
+    font-size: 2em !important;
+}
+
+.card {
+    margin-bottom: 18px !important;
+}
+
+.select2 {
+    width: 100% !important;
+}
+
+.delete_row,
+.delete_row1,
+.delete_row2 {
+    cursor: pointer;
+}
