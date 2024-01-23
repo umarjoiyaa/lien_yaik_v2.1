@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\Batch;
 use App\Models\Machine;
 use App\Models\Material;
+use App\Models\MaterialInventory;
 use App\Models\ProductionOrder;
 use App\Models\ProductionOrderDetail;
 use App\Models\PurchaseOrder;
@@ -110,6 +111,11 @@ class ProductionOrderController extends Controller
             $details->required = $value['required'] ?? 0;
             $details->need = $value['need'] ?? 0;
             $details->save();
+
+            $total = ($value['required']) ? $value['required'] : 0;
+            $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
+            $stock->value = (float)$stock->value - (float)$total;
+            $stock->save();
         }
 
         Helper::logSystemActivity('Production Order', 'Production Order Create');
@@ -192,9 +198,15 @@ class ProductionOrderController extends Controller
         $production->status = $request->status;
         $production->save();
 
-        ProductionOrderDetail::where('po_id', '=', $id)->delete();
+        $delete = ProductionOrderDetail::where('po_id', '=', $id);
 
         foreach ($request->items as $value) {
+            $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value['id'])->first();
+            $total = ($value['required']) ? $value['required'] : 0;
+            $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
+            $stock->value = (float)$stock->value - ((float)$total + (float)$deduct_qty->required);
+            $stock->save();
+
             $details = new ProductionOrderDetail();
             $details->po_id = $production->id;
             $details->item_id = $value['id'];
@@ -203,6 +215,8 @@ class ProductionOrderController extends Controller
             $details->need = $value['need'] ?? 0;
             $details->save();
         }
+
+        $delete->delete();
 
         Helper::logSystemActivity('Production Order', 'Production Order Update');
         return redirect()->route('production.index')->with('custom_success', 'Production Order has been Succesfully Updated!');        
@@ -215,6 +229,13 @@ class ProductionOrderController extends Controller
         }
 
         $production = ProductionOrder::find($id);
+        $details = ProductionOrderDetail::where('po_id', '=', $id);
+        foreach ($details as $value) {
+            $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value->item_id)->first();
+            $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();  
+            $stock->value = (float)$stock->value + (float)$deduct_qty->required;
+            $stock->save();
+        }
         ProductionOrderDetail::where('po_id', '=', $id)->delete();
         $production->delete();
         Helper::logSystemActivity('Production Order', 'Production Order Delete');
