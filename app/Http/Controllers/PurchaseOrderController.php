@@ -14,6 +14,7 @@ use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 class PurchaseOrderController extends Controller
 {
@@ -49,10 +50,13 @@ class PurchaseOrderController extends Controller
         }
 
         $request->validate([
+            'order_no' => [
+                'required',
+                Rule::unique('purchase_orders', 'order_no')->whereNull('deleted_at'),
+            ],
             "customer_name" => "required",
             "product" => "required",
             "material" => "required",
-            "order_no" => "required",
             "order_date" => "required",
             "request_date" => "required",
             "order_unit" => "required",
@@ -116,10 +120,13 @@ class PurchaseOrderController extends Controller
         }
 
         $request->validate([
+            'order_no' => [
+                'required',
+                Rule::unique('purchase_orders', 'order_no')->whereNull('deleted_at')->ignore($id),
+            ],
             "customer_name" => "required",
             "product" => "required",
             "material" => "required",
-            "order_no" => "required",
             "order_date" => "required",
             "request_date" => "required",
             "order_unit" => "required",

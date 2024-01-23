@@ -67,7 +67,7 @@ $("#addrows").on("click", function () {
                     <td name='category'>${category}</td>
                     <td name='uoms'>${uom}</td>
                     <td name='suppliers'>${supplier}</td>
-                    <td><input type='number' value="${value}" id="available_qty_${$length}" class='form-control available_qty' name='items[${$length}][available]' readonly></td>
+                    <td><input type='number' value="${value}" id="available_qty_${$length}" class='form-control available_qty1' name='items[${$length}][available]' readonly></td>
                     <td><input type='number' value="" id="required_qty_${$length}" class='form-control required_qty' name='items[${$length}][required]'></td>
                     <td><input type='number' value="" id="need_${$length}" class='form-control need' name='items[${$length}][need]' readonly></td>
                     <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
@@ -153,7 +153,7 @@ function calculateRawMaterial() {
 }
 
 function calculateNeededQuantity() {
-    var available = parseFloat($(this).closest('tr').find('.available_qty').val()) || 0;
+    var available = parseFloat($(this).closest('tr').find('.available_qty1').val()) || 0;
     var required = parseFloat($(this).val()) || 0;
     var need = available - required;
     $(this).parents("tr").find('.need').val(isNaN(need) ? '' : need);
@@ -172,7 +172,7 @@ function calculateRemainingValues() {
 
 $('#reject, #order_unit').on('input', calculateTargetProduce);
 $('#press, #weight-per-mold').on('input', calculateRawMaterial);
-$(document).on("input", ".required_qty, .available_qty", calculateNeededQuantity);
+$(document).on("input", ".required_qty, .available_qty1", calculateNeededQuantity);
 $("#target_produce, #used_qty").on('input', calculateRemainingValues);
 
 

@@ -229,7 +229,7 @@ class ProductionOrderController extends Controller
         }
 
         $production = ProductionOrder::find($id);
-        $details = ProductionOrderDetail::where('po_id', '=', $id);
+        $details = ProductionOrderDetail::where('po_id', '=', $id)->get();
         foreach ($details as $value) {
             $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value->item_id)->first();
             $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();  

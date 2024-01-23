@@ -190,7 +190,7 @@
                                         @endforeach
                                         <td><input type="number" id="available_qty_{{ $key }}"
                                                 name="items[{{ $key }}][available]"
-                                                value="{{ $detail->available }}" class="form-control available_qty"></td>
+                                                value="{{ $detail->available }}" class="form-control available_qty1"></td>
                                         <td><input type="number" id="required_qty_{{ $key }}"
                                                 name="items[{{ $key }}][required]"
                                                 value="{{ $detail->required }}" class="form-control required_qty"></td>
