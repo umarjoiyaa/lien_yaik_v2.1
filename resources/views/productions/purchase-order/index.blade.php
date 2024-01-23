@@ -71,7 +71,17 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $purchase->customer }}</td>
                                 <td>{{ $purchase->product->name }}</td>
-                                <td>{{ $purchase->item->name }}</td>
+                                <td>
+                                    @foreach (json_decode($purchase->item_id) as $value)
+                                        @php
+                                            $item = App\Models\Material::find($value);
+                                        @endphp
+                                        {{ $item->name }}
+                                        @unless ($loop->last)
+                                            ,
+                                        @endunless
+                                    @endforeach
+                                </td>
                                 <td>{{ $purchase->order_no }}</td>
                                 <td>{{ $purchase->order_unit }}</td>
                                 <td>{{ $purchase->cavities }}</td>
@@ -101,8 +111,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a target="_blank" href="{{ route('purchase.pdf', $purchase->id) }}"><iconify-icon icon="prime:file-pdf"
-                                            style="color: red;" width="23" height="23"></iconify-icon></a>
+                                    <a target="_blank" href="{{ route('purchase.pdf', $purchase->id) }}"><iconify-icon
+                                            icon="prime:file-pdf" style="color: red;" width="23"
+                                            height="23"></iconify-icon></a>
                                     <a href="{{ route('purchase.edit', $purchase->id) }}"><iconify-icon
                                             icon="akar-icons:edit" width="20" height="20"
                                             style="color: steelblue;"></iconify-icon></a>

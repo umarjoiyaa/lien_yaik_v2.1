@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('customer')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->unsignedBigInteger('item_id')->nullable();
-            $table->foreign('item_id')->references('id')->on('materials')->onDelete('cascade');
+            $table->string('item_id')->nullable();
             $table->string('order_no')->nullable();
             $table->string('order_date')->nullable();
             $table->string('req_date')->nullable();

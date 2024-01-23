@@ -9,6 +9,7 @@ use App\Models\MaterialIn;
 use App\Models\MaterialInventory;
 use App\Models\MaterialOut;
 use App\Models\ProductionOrderDetail;
+use App\Models\PurchaseOrder;
 use App\Models\Supplier;
 use App\Models\Uom;
 use Illuminate\Http\Request;
@@ -129,14 +130,13 @@ class MaterialController extends Controller
         $material = Material::find($id);
         $Material_in = MaterialIn::where('item_id', '=', $id)->first();
         $Material_out = MaterialOut::where('item_id', '=', $id)->first();
-        $ProductionOrderDetail = ProductionOrderDetail::where('item_id', '=', $id)->first();
-
+        $Purchase = PurchaseOrder::whereJsonContains('item_id', '=', $id)->first();
 
         if($Material_in){
             return back()->with('custom_errors', 'This MATERIAL is used in MATERIAL IN!');
         }elseif($Material_out){
             return back()->with('custom_errors', 'This MATERIAL is used in MATERIAL OUT!');
-        }elseif($ProductionOrderDetail){
+        }elseif($Purchase){
             return back()->with('custom_errors', 'This MATERIAL is used in PRODUCTION ORDER!');
         }
         MaterialInventory::where('item_id','=',$id)->delete();

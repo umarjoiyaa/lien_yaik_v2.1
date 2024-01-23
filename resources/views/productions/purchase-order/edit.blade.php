@@ -17,8 +17,8 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="" class="form-label">Customer Name</label>
-                            <input type="text" class="form-control" name="customer_name" value="{{ $purchase->customer }}"
-                               >
+                            <input type="text" class="form-control" name="customer_name"
+                                value="{{ $purchase->customer }}">
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -27,7 +27,8 @@
                             <select name="product" class="form-select">
                                 <option value="" selected disabled>Select an option</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}" @selected($product->id == $purchase->product_id)>{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" @selected($product->id == $purchase->product_id)>{{ $product->name }}
+                                    </option>
                                 @endforeach
                             </select>
 
@@ -35,10 +36,13 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="" class="form-label">Material</label>
-                        <select name="material" class="form-select">
-                            <option value="" selected disabled>Select an option</option>
+                        <select name="material[]" multiple class="form-select">
+                            @php
+                                $item = json_decode($purchase->item_id);
+                            @endphp
                             @foreach ($materials as $material)
-                                <option value="{{ $material->id }}" @selected($material->id == $purchase->item_id)>{{ $material->name }}</option>
+                                <option value="{{ $material->id }}" {{ in_array($material->id, $item) ? 'selected' : '' }}>
+                                    {{ $material->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -54,13 +58,15 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="">Order date</label>
-                            <input type="date" name="order_date" class="form-control" value="{{ $purchase->order_date }}">
+                            <input type="date" name="order_date" class="form-control"
+                                value="{{ $purchase->order_date }}">
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="" class="form-label">Customer Request Date</label>
-                            <input type="date" name="request_date" class="form-control" value="{{ $purchase->req_date }}">
+                            <input type="date" name="request_date" class="form-control"
+                                value="{{ $purchase->req_date }}">
                         </div>
                     </div>
                 </div>
@@ -69,7 +75,8 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="" class="form-label">Ordered Unit</label>
-                            <input type="number" name="order_unit" class="form-control" value="{{ $purchase->order_unit }}">
+                            <input type="number" name="order_unit" class="form-control"
+                                value="{{ $purchase->order_unit }}">
                         </div>
                     </div>
                 </div>
@@ -80,11 +87,13 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-abel">Cavities</label>
-                        <input type="number" name="cavities" class="form-control" id="input1" value="{{ $purchase->cavities }}">
+                        <input type="number" name="cavities" class="form-control" id="input1"
+                            value="{{ $purchase->cavities }}">
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-label">Unit KG</label>
-                        <input type="number" name="unit_kg" id="input2" class="form-control" value="{{ $purchase->unit_kg }}">
+                        <input type="number" name="unit_kg" id="input2" class="form-control"
+                            value="{{ $purchase->unit_kg }}">
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-label">Weight</label>
@@ -97,7 +106,8 @@
                         <h6>PURCHASE ORDER ISSUED BY :</h6>
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" name="issued_by" readonly value="{{ Auth::user()->name }}"/>
+                        <input type="text" class="form-control" name="issued_by" readonly
+                            value="{{ Auth::user()->name }}" />
                     </div>
                 </div>
 
@@ -111,7 +121,8 @@
                         @endphp
                         <select name="approved_by[]" multiple class="form-select">
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ in_array($user->id, $item) ? 'selected' : '' }}>{{ $user->name }}</option>
+                                <option value="{{ $user->id }}" {{ in_array($user->id, $item) ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>

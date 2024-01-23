@@ -25,7 +25,7 @@ class PurchaseOrderController extends Controller
             Auth::user()->hasPermissionTo('Purchase Order Edit') ||
             Auth::user()->hasPermissionTo('Purchase Order Delete')
         ) {
-            $purchases = PurchaseOrder::with('product','item','user')->get();
+            $purchases = PurchaseOrder::with('product','user')->get();
             Helper::logSystemActivity('Purchase Order', 'Purchase Order List');
             return view('productions.purchase-order.index', compact('purchases'));
         }
@@ -70,7 +70,7 @@ class PurchaseOrderController extends Controller
         $purchase = new PurchaseOrder();
         $purchase->customer = $request->customer_name;
         $purchase->product_id = $request->product;
-        $purchase->item_id = $request->material;
+        $purchase->item_id = json_encode($request->material);
         $purchase->order_no = $request->order_no;
         $purchase->order_date = $request->order_date;
         $purchase->req_date = $request->request_date;
@@ -140,7 +140,7 @@ class PurchaseOrderController extends Controller
         $purchase = PurchaseOrder::find($id);
         $purchase->customer = $request->customer_name;
         $purchase->product_id = $request->product;
-        $purchase->item_id = $request->material;
+        $purchase->item_id = json_encode($request->material);
         $purchase->order_no = $request->order_no;
         $purchase->order_date = $request->order_date;
         $purchase->req_date = $request->request_date;

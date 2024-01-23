@@ -35,10 +35,9 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="" class="form-label">Material</label>
-                        <select name="material" class="form-select">
-                            <option value="" selected disabled>Select an option</option>
+                        <select name="material[]" multiple class="form-select">
                             @foreach ($materials as $material)
-                                <option value="{{ $material->id }}" @selected($material->id == old('material'))>{{ $material->name }}</option>
+                                <option value="{{ $material->id }}" {{ old('material') && in_array($user->id, old('material')) ? 'selected' : '' }} @selected($material->id == old('material'))>{{ $material->name }}</option>
                             @endforeach
                         </select>
                     </div>
