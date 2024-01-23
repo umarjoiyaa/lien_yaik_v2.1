@@ -367,66 +367,63 @@
             $.ajax({
                 url: "{{ route('machine_dashboard.get') }}",
                 success: function(data) {
-                    if (data.length > 0) {
-                        $('#ps_m1').text(data["M1"].status);
-                        $('#t_m1').text(data["M1"].temp);
-                        $('#b_m1').text(data["M1"].batch);
-                        $('#ct_m1').text(data["M1"].planned);
-                        $('#tt_m1').text(data["M1"].mold.toFixed(0));
-                        $('#w_t_m1').text(data["M1"].check_temp);
+                    $('#ps_m1').text(data["M1"].status);
+                    $('#t_m1').text(data["M1"].temp);
+                    $('#b_m1').text(data["M1"].batch);
+                    $('#ct_m1').text(data["M1"].planned);
+                    $('#tt_m1').text(data["M1"].mold.toFixed(0));
+                    $('#w_t_m1').text(data["M1"].check_temp);
 
-                        if (data["M1"].mold >= data["M1"].planned) {
-                            if (data["M1"].mold != 0) {
-                                $('#s_m1').html("<b>production complete</b>");
-                                $('#s_m1').css('color', '#0acb8e');
-                                $('#s_m1').css('font-size', '20px');
-                            } else {
-                                $('#s_m1').html("");
-                            }
+                    if (data["M1"].mold >= data["M1"].planned) {
+                        if (data["M1"].mold != 0) {
+                            $('#s_m1').html("<b>production complete</b>");
+                            $('#s_m1').css('color', '#0acb8e');
+                            $('#s_m1').css('font-size', '20px');
                         } else {
                             $('#s_m1').html("");
                         }
+                    } else {
+                        $('#s_m1').html("");
+                    }
 
-                        $('#ps_m2').text(data["M2"].status);
-                        $('#t_m2').text(data["M2"].temp);
-                        $('#b_m2').text(data["M2"].batch);
-                        $('#ct_m2').text(data["M2"].planned);
-                        $('#tt_m2').text(data["M2"].mold.toFixed(0));
-                        $('#w_t_m2').text(data["M2"].check_temp);
+                    $('#ps_m2').text(data["M2"].status);
+                    $('#t_m2').text(data["M2"].temp);
+                    $('#b_m2').text(data["M2"].batch);
+                    $('#ct_m2').text(data["M2"].planned);
+                    $('#tt_m2').text(data["M2"].mold.toFixed(0));
+                    $('#w_t_m2').text(data["M2"].check_temp);
 
-                        if (data["M2"].mold >= data["M2"].planned) {
-                            if (data["M2"].mold != 0) {
-                                $('#s_m2').html("<b>production complete</b>");
-                                $('#s_m2').css('color', '#0acb8e');
-                                $('#s_m2').css('font-size', '20px');
-                            } else {
-                                $('#s_m2').html("");
-                            }
+                    if (data["M2"].mold >= data["M2"].planned) {
+                        if (data["M2"].mold != 0) {
+                            $('#s_m2').html("<b>production complete</b>");
+                            $('#s_m2').css('color', '#0acb8e');
+                            $('#s_m2').css('font-size', '20px');
                         } else {
                             $('#s_m2').html("");
                         }
+                    } else {
+                        $('#s_m2').html("");
+                    }
 
-                        $('#t_m3').text(data["M3"].temp);
-                        $('#m_m3').text(data["M3"].moisture);
-                        $('#warning_temp').text(data["M3"].check_temp);
-                        $('#warning_moisture').text(data["M3"].check_moisture);
+                    $('#t_m3').text(data["M3"].temp);
+                    $('#m_m3').text(data["M3"].moisture);
+                    $('#warning_temp').text(data["M3"].check_temp);
+                    $('#warning_moisture').text(data["M3"].check_moisture);
 
-                        if (data["M1"].status == "Stopped") {
-                            $('#ps_m1').removeClass('badge-success');
-                            $('#ps_m1').addClass('badge-danger');
-                        } else {
-                            $('#ps_m1').removeClass('badge-danger');
-                            $('#ps_m1').addClass('badge-success');
-                        }
+                    if (data["M1"].status == "Stopped") {
+                        $('#ps_m1').removeClass('badge-success');
+                        $('#ps_m1').addClass('badge-danger');
+                    } else {
+                        $('#ps_m1').removeClass('badge-danger');
+                        $('#ps_m1').addClass('badge-success');
+                    }
 
-                        if (data["M2"].status == "Stopped") {
-                            $('#ps_m2').removeClass('badge-success');
-                            $('#ps_m2').addClass('badge-danger');
-                        } else {
-                            $('#ps_m2').removeClass('badge-danger');
-                            $('#ps_m2').addClass('badge-success');
-                        }
-
+                    if (data["M2"].status == "Stopped") {
+                        $('#ps_m2').removeClass('badge-success');
+                        $('#ps_m2').addClass('badge-danger');
+                    } else {
+                        $('#ps_m2').removeClass('badge-danger');
+                        $('#ps_m2').addClass('badge-success');
                     }
                 }
             });
