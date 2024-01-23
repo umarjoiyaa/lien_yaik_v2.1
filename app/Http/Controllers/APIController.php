@@ -79,7 +79,7 @@ class APIController extends Controller
     { 
         try {
             $responses = json_decode($req['data']);
-            
+
             foreach($responses as $response){
                 $machine_ids = $response->machine_id ?? null;
                 $machine_temperature = $response->temperature ?? null;
@@ -113,7 +113,6 @@ class APIController extends Controller
     
                                 $email = new MoistureHighEmail($user, $machine->name, $temp_moisture->moisture_high);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Moisture  Have Cross The High Limits ('.$temp_moisture->moisture_high.')']);
     
                             }else if($machine_moisture < $temp_moisture->moisture_low){
     
@@ -121,7 +120,6 @@ class APIController extends Controller
     
                                 $email = new MoistureLowEmail($user, $machine->name, $temp_moisture->moisture_low);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Moisture  Have Cross The Low Limits ('.$temp_moisture->moisture_low.')']) ;
     
                             }
     
@@ -135,7 +133,6 @@ class APIController extends Controller
     
                                 $email = new TempHighEmail($user, $machine->name, $temp_moisture->temp_high);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Temperature  Have Cross The High Limits ('.$temp_moisture->temp_high.')']) ;
     
                             }else if($machine_temperature < $temp_moisture->temp_low){
     
@@ -143,7 +140,6 @@ class APIController extends Controller
     
                                 $email = new TempLowEmail($user, $machine->name, $temp_moisture->temp_low);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Temperature  Have Cross The Low Limits ('.$temp_moisture->temp_low.')']) ;
     
                             }
     
@@ -170,7 +166,6 @@ class APIController extends Controller
     
                                 $email = new MoistureHighEmail($user, $machine->name, $temp_moisture->moisture_high);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Moisture  Have Cross The High Limits ('.$temp_moisture->moisture_high.')']);
     
                             }else if($machine_moisture < $temp_moisture->moisture_low){
     
@@ -178,7 +173,6 @@ class APIController extends Controller
     
                                 $email = new MoistureLowEmail($user, $machine->name, $temp_moisture->moisture_low);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Moisture  Have Cross The Low Limits ('.$temp_moisture->moisture_low.')']) ;
     
                             }
     
@@ -192,7 +186,6 @@ class APIController extends Controller
     
                                 $email = new TempHighEmail($user, $machine->name, $temp_moisture->temp_high);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Temperature  Have Cross The High Limits ('.$temp_moisture->temp_high.')']) ;
     
                             }else if($machine_temperature < $temp_moisture->temp_low){
     
@@ -200,7 +193,6 @@ class APIController extends Controller
     
                                 $email = new TempLowEmail($user, $machine->name, $temp_moisture->temp_low);
                                 Mail::to($user->email)->send($email);
-                                return response()->json(["status"=>'200',"msg"=>'Your Machine '.$machine->name.' Temperature  Have Cross The Low Limits ('.$temp_moisture->temp_low.')']) ;
     
                             }
     
