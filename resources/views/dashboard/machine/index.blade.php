@@ -16,16 +16,154 @@
             margin: 10px;
         }
 
-        @media screen and (max-width: 500px) {
-            .machines {
-                margin-top: 100px !important;
+        .machiness {
+            margin-bottom: 200px;
+        }
+
+        .machines {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .col-3 {
+            padding: 10px;
+        }
+
+        @media screen and (max-width:1122px) {
+            .machiness {
+                margin-bottom: 140px;
             }
+
+            .machiness h3 {
+                font-size: 19px;
+            }
+
+            .machines h5 {
+                font-size: 16px;
+            }
+
+            .machiness h5 {
+                font-size: 16px;
+            }
+
+        }
+
+        @media screen and (max-width:992px) {
+            .container-body {
+                height: 600px;
+            }
+
+            .machiness {
+                margin-bottom: 60px;
+                width: 200px:
+            }
+
+            .machines h3 {
+                font-size: 17px;
+            }
+
+            .machines h5 {
+                font-size: 9px;
+            }
+
+            .machiness h5 {
+                font-size: 11px;
+            }
+
+            svg {
+                width: 20px;
+                font-size: 5px;
+                margin-left: -4px;
+            }
+
+        }
+
+        @media screen and (max-width:768px) {
+            .container-body {
+                height: 500px;
+            }
+
+            .machiness {
+                margin-bottom: 60px;
+
+            }
+
+            .machiness h5 {
+                font-size: 11px;
+
+            }
+
+            .machines h5 {
+                font-size: 11px;
+            }
+
+            svg {
+                font-size: 5px;
+            }
+
+            .machiness svg {
+                margin-left: -10px;
+                width: 20px;
+            }
+        }
+
+        @media screen and (max-width:580px) {
+            .container-body {
+                height: 400px;
+            }
+
+            .machiness {
+                margin-bottom: 40px;
+
+            }
+
+            .machines h5 {
+                font-size: 9px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .machiness h5 {
+                font-size: 10px;
+                margin: 0;
+                padding: 0;
+            }
+
+            .machines h3 {
+                font-size: 16px;
+            }
+
+            .machiness h3 {
+                font-size: 14px;
+            }
+
+            svg {
+                margin-left: -5px;
+
+            }
+
+            .machiness svg {
+                margin-left: -5px;
+
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .container-body {
+                height: 350px;
+            }
+
+            .machines {}
 
             .m3 {
                 margin-top: 0px !important;
             }
 
             .machines h5 {
+                font-size: 10px;
+            }
+
+            .machiness h5 {
                 font-size: 10px;
             }
 
@@ -48,6 +186,114 @@
             }
         }
 
+        @media screen and (max-width: 480px) {
+            .container-body {
+                height: 350px;
+            }
+
+            .col-3 {
+                padding: 0;
+            }
+
+            h5 {
+                padding: 0;
+                margin: 0;
+            }
+
+            svg {
+                width: 20px;
+                margin-left: -8px;
+
+            }
+
+            .machiness svg {
+                width: 20px;
+                margin-left: -8px;
+
+            }
+
+            .machines h5 {
+                font-size: 9px;
+            }
+
+            .machiness h5 {
+                font-size: 9px;
+            }
+        }
+
+        @media screen and (max-width: 380px) {
+            .container-body {
+                height: 300px;
+            }
+
+            .machiness {
+                margin-bottom: 20px;
+            }
+
+            svg {
+                width: 22px;
+                margin-left: -22px;
+                height: 10px;
+            }
+
+            .machiness svg {
+                width: 22px;
+                margin-left: -22px;
+                height: 10px;
+            }
+
+            .machines h5 {
+                font-size: 8px;
+            }
+
+            .machiness h5 {
+                font-size: 8px;
+            }
+
+            #status {
+                font-size: 7px;
+            }
+
+            .machines h3 {
+                font-size: 10px;
+            }
+
+            .machiness h3 {
+                font-size: 10px;
+            }
+
+            .navbar .page-title {
+                font-size: 13px;
+                max-width: 105px;
+            }
+
+            .custom-dropdown .custom-dropdown-toggler .icon {
+                font-size: 1.5rem;
+                color: #2f2f2f;
+            }
+
+            .custom-dropdown .custom-dropdown-toggler .badge-xs {
+                font-size: 8px;
+
+            }
+
+            .navbar .navbar-right .navbar-nav .user-menu .user-image {
+                width: 29px;
+                border-radius: 0.25rem;
+            }
+
+        }
+
+        @media screen and (max-width: 300px) {
+            #status {
+                font-size: 6px;
+            }
+
+            .machiness h5 {
+                font-size: 7px;
+            }
+        }
+
         .text-danger {
             animation: blink 1s infinite;
         }
@@ -66,6 +312,7 @@
             }
         }
     </style>
+
     <div class="container-fluid mt-4 container-body">
         <div class="row machines m3">
             <div class="col-3 offset-2 p-3 mt-5" style="background: #FAE275 ; border-radius: 7px;">
