@@ -12394,7 +12394,7 @@ code {
 }
 @media (max-width: 500px) {
   .navbar .page-title {
-    font-size: 1.400rem;
+    font-size: 0.7rem;
     max-width: 300px;
   }
 }
