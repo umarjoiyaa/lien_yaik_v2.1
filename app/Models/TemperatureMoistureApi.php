@@ -10,4 +10,7 @@ class TemperatureMoistureApi extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = ['machine_id','temperature','moisture','start_time','end_time'];
+
 }

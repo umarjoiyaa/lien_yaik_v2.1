@@ -35,7 +35,7 @@ class APIController extends Controller
             if(empty($CheckMachineStart)){
                 return response()->json('Machine Not Started');
             }
-            $cavities = DB::select('SELECT purchases.cavities FROM batches INNER JOIN productions ON batches.id = productions.batch_id INNER JOIN purchases ON productions.purchase_id = purchases.id where batches.id = '.$CheckMachineStart->batch_id);
+            $cavities = DB::select('SELECT purchase_orders.cavities FROM batches INNER JOIN production_orders ON batches.id = production_orders.batch_id INNER JOIN purchase_orders ON production_orders.order_id = purchase_orders.id where batches.id = '.$CheckMachineStart->batch_id);
 
             if(empty($cavities)){
                 return response()->json('Cavity Not Set');

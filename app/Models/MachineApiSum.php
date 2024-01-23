@@ -10,4 +10,7 @@ class MachineApiSum extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public $fillable = ['machine_id', 'batch_id', 'press_id', 'sum_cavity', 'date'];
+
 }
