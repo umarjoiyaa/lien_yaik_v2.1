@@ -19,12 +19,12 @@ class MoistureHighEmail extends Mailable
      * @return void
      */
     public $user;
-    public $mchine;
+    public $machine;
     public $moisture;
-    public function __construct($user, $mchine, $moisture)
+    public function __construct($user, $machine, $moisture)
     {
         $this->user = $user;
-        $this->mchine = $mchine;
+        $this->machine = $machine;
         $this->moisture = $moisture;
     }
 

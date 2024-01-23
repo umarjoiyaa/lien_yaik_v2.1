@@ -19,12 +19,12 @@ class TempHighEmail extends Mailable
      * @return void
      */
     public $user;
-    public $mchine;
+    public $machine;
     public $temp;
-    public function __construct($user, $mchine, $temp)
+    public function __construct($user, $machine, $temp)
     {
         $this->user = $user;
-        $this->mchine = $mchine;
+        $this->machine = $machine;
         $this->temp = $temp;
     }
 
