@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('user')->nullable();
             $table->string('accept')->nullable();
             $table->string('reject')->nullable();
-            $table->longText('remakrs')->nullable();
+            $table->longText('remarks')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

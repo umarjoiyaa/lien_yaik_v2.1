@@ -114,13 +114,88 @@
                 </div>
             </div>
             <br>
-            <div class="row px-3">
+            <div class="row px-3 d-flex justify-content-end">
 
-                <div class="mr-auto mt-2"><a class="btn btn-info" href="{{ route('purchase.accept', $review->id) }}">Accept</a></div>
-
-                <div><a class="btn btn-info" href="{{ route('purchase.reject', $review->id) }}">Reject</a></div>
+                <div class="mt-2"><a class="btn btn-info" data-toggle="modal" data-target="#remarksModal">Proceed</a>
+                </div>
 
             </div>
         </div>
     </div>
+    {{-- MODAL --}}
+    <div class="container">
+        <div class="modal fade" id="remarksModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <h2 class="remarksHeading">{{ $review->order_no }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="closeremarks" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="">Comments</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <textarea name="remarks" id="orderRemarks" class="form-control" placeholder="Optional"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="accept-button btn btn-info" type="button" data-dismiss="modal">Accept</button>
+                        <button class="reject-button btn btn-info" type="button" data-dismiss="modal">Reject</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- END MODAL --}}
 @endsection
+@push('custom-scripts')
+    <script>
+        let accept = "{{ route('purchase.accept', $review->id) }}";
+        let reject = "{{ route('purchase.reject', $review->id) }}";
+        $('.accept-button').on('click', function() {
+            $('.btn').attr('disabled', 'disabled');
+            $remarks = $('#orderRemarks').val();
+            $.ajax({
+                url: accept,
+                method: 'GET',
+                data: {
+                    remarks: $remarks
+                },
+                success: function(response) {
+                    window.location.href = "{{ route('purchase.index') }}";
+                },
+                error: function(error) {}
+            });
+        });
+        $('.reject-button').on('click', function() {
+            $('.btn').attr('disabled', 'disabled');
+            $remarks = $('#orderRemarks').val();
+            $.ajax({
+                url: reject,
+                method: 'GET',
+                data: {
+                    remarks: $remarks
+                },
+                success: function(response) {
+                    window.location.href = "{{ route('purchase.index') }}";
+                },
+                error: function(error) {}
+            });
+        });
+    </script>
+@endpush
