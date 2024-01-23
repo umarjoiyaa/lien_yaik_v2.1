@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\AcceptEmail;
 use App\Mail\RejectEmail;
+use App\Models\Material;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\User;
@@ -48,7 +49,8 @@ class NotificationController extends Controller
     {
         $review = PurchaseOrder::find($id);
         $users = User::all();
-        return view('productions.purchase-order.review', compact('review', 'users'));
+        $materials = Material::all();
+        return view('productions.purchase-order.review', compact('review', 'users', 'materials'));
     }
 
     function accept(Request $request)

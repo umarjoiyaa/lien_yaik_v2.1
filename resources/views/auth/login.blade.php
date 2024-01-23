@@ -42,10 +42,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Password</label>
-                                        <input id="password" type="password"
-                                            class="form-control @error('password') is-invalid @enderror" name="password"
-                                            required autocomplete="current-password">
-
+                                        <div class="d-flex">
+                                            <span class="input-group-text" style="cursor: pointer;"><iconify-icon
+                                                    icon="fa:eye-slash" id="togglePassword" style="color: black;"
+                                                    width="20" height="20"></iconify-icon></span>
+                                            <input id="password" type="password"
+                                                class="form-control @error('password') is-invalid @enderror"
+                                                name="password" required autocomplete="current-password">
+                                        </div>
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -76,6 +80,27 @@
         </div>
     </div>
     </div>
+    <script src="{{ asset('assets/js/iconify-icon.min.js') }}"></script>
+    <script>
+        const togglePassword = document
+            .querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        togglePassword.addEventListener('click', () => {
+            // Toggle the type attribute using
+            // getAttribure() method
+            const type = password
+                .getAttribute('type') === 'password' ?
+                'text' : 'password';
+            password.setAttribute('type', type);
+            if (password.getAttribute('type') === 'password') {
+                // Toggle the eye and bi-eye icon
+                togglePassword.setAttribute('icon', 'fa:eye-slash');
+            } else if (password.getAttribute('type') === 'text') {
+                // Toggle the eye and bi-eye icon
+                togglePassword.setAttribute('icon', 'fa:eye');
+            }
+        });
+    </script>
 </body>
 
 </html>

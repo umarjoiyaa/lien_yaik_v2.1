@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('company')->nullable();
             $table->string('dimension')->nullable();
             $table->string('description')->nullable();
-            $table->string('file')->nullable();
+            $table->longText('file')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

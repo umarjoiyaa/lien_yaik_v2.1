@@ -45,8 +45,23 @@ class BatchController extends Controller
                 'required',
                 Rule::unique('batches', 'batch_no')->whereNull('deleted_at'),
             ],
-            "planned_start" => "required",
-            "planned_end" => "required"
+            'planned_start' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->filled('planned_end')) {
+                        $planned_end = $request->input('planned_end');
+
+                        if (strtotime($value) >= strtotime($planned_end)) {
+                            $fail('The :attribute must be less than planned_end.');
+                        }
+                    }
+                },
+            ],
+            'planned_end' => [
+                'required',
+                'date',
+            ],
         ]);
 
         $batch = new Batch();
@@ -78,8 +93,23 @@ class BatchController extends Controller
                 'required',
                 Rule::unique('batches', 'batch_no')->whereNull('deleted_at')->ignore($id),
             ],
-            "planned_start" => "required",
-            "planned_end" => "required"
+            'planned_start' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->filled('planned_end')) {
+                        $planned_end = $request->input('planned_end');
+
+                        if (strtotime($value) >= strtotime($planned_end)) {
+                            $fail('The :attribute must be less than planned_end.');
+                        }
+                    }
+                },
+            ],
+            'planned_end' => [
+                'required',
+                'date',
+            ],
         ]);
 
         $batch = Batch::find($id);

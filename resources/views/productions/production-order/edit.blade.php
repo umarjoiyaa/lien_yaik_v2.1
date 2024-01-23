@@ -188,13 +188,13 @@
                                                 <td>{{ $material->suppliers }}</td>
                                             @endif
                                         @endforeach
-                                        <td><input type="number" id="available_qty_{{ $key }}"
+                                        <td><input readonly type="number" id="available_qty_{{ $key }}"
                                                 name="items[{{ $key }}][available]"
                                                 value="{{ $detail->available }}" class="form-control available_qty1"></td>
                                         <td><input type="number" id="required_qty_{{ $key }}"
                                                 name="items[{{ $key }}][required]"
                                                 value="{{ $detail->required }}" class="form-control required_qty"></td>
-                                        <td><input type="number" id="need_{{ $key }}"
+                                        <td><input readonly type="number" id="need_{{ $key }}"
                                                 name="items[{{ $key }}][need]" value="{{ $detail->need }}"
                                                 class="form-control need"></td>
                                         <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"

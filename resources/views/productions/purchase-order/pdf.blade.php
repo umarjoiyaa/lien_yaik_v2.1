@@ -54,7 +54,17 @@
                         <br>
                         <span>{{ $data->product->name }}</span>
                         <br>
-                        <span>{{ $data->item->name }}</span>
+                        <span>
+                            @foreach (json_decode($data->item_id) as $value)
+                                @php
+                                    $item = App\Models\Material::find($value);
+                                @endphp
+                                {{ $item->name }}
+                                @unless ($loop->last)
+                                    ,
+                                @endunless
+                            @endforeach
+                        </span>
                         <br>
                         <span>{{ $data->order_no }}</span>
                         <br>

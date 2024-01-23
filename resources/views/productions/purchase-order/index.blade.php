@@ -92,7 +92,7 @@
                                     @if ($purchase->status == 0)
                                         <span class="badge badge-warning text-white">pending</span>
                                     @elseif($purchase->status == 1)
-                                        <span class="badge badge-success">aproved</span>
+                                        <span class="badge badge-success">approved</span>
                                     @elseif ($purchase->status == 2)
                                         <span class="badge badge-danger">rejected</span>
                                     @endif

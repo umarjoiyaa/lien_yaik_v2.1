@@ -99,7 +99,7 @@ class PressController extends Controller
         $press->save();
 
         Helper::logSystemActivity('Press', 'Press Update');
-        return redirect()->route('batch.index')->with('custom_success', 'Press has been Succesfully Updated!');
+        return redirect()->route('press.index')->with('custom_success', 'Press has been Succesfully Updated!');
     }
 
     public function destroy($id){
@@ -119,8 +119,8 @@ class PressController extends Controller
     {
         $ismachinestart = null;
         
-        $JustSelected = Press::where('id', $request->press)->where('batch_id','=', $request->batch_id)->where('machine_id' ,'=' , $request->machine_id)->orderby('id', 'DESC')->first();
-        
+        $JustSelected = Press::where('id', '=', $request->press_id)->where('batch_id','=', $request->batch_id)->where('machine_id' ,'=' , $request->machine_id)->orderby('id', 'DESC')->first();
+
         if(!empty($JustSelected)){
             $ismachinestart = PressDetail::where('end_time', '=', null)->where('batch_id', '!=', $request->batch_id)->where('machine_id', '=', $request->machine_id)->where('press_id', '!=', $request->press_id)->orderby('id', 'DESC')->first();
         }
@@ -128,7 +128,7 @@ class PressController extends Controller
         $alreadyexist = PressDetail::where('status', '=', 1)->where('batch_id', '=', $request->batch_id)->where('machine_id', '=', $request->machine_id)->where('press_id', '=', $request->press_id)->orderby('id', 'DESC')->first();
         $alreadypaused = PressDetail::where('status', '=', 1)->where('batch_id', '=', $request->batch_id)->where('machine_id', '=', $request->machine_id)->where('press_id', '=', $request->press_id)->orderby('id', 'DESC')->first();
         $stopped = PressDetail::where('batch_id', '=', $request->batch_id)->where('machine_id', '=', $request->machine_id)->where('press_id', '=', $request->press_id)->where('status', '=', 3)->first();
-                       
+
         if (!$ismachinestart) {
             
             if ($request->status == 1 && !$alreadyexist && !$stopped) {

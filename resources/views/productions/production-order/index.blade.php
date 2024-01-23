@@ -39,7 +39,7 @@
                                 Order Date
                             </th>
                             <th>
-                                Due Date
+                                Inhouse Target Date
                             </th>
                             <th class="removeDT">
                                 Image

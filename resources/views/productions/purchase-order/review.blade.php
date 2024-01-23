@@ -29,7 +29,15 @@
                 </div>
                 <div class="col-sm-4">
                     <label for="" class="form-label">Material</label>
-                    <input type="text" readonly class="form-control" value="{{ $review->item->name }}">
+                    <select disabled name="material[]" multiple class="form-select">
+                        @php
+                            $item = json_decode($review->item_id);
+                        @endphp
+                        @foreach ($materials as $material)
+                            <option value="{{ $material->id }}" {{ in_array($material->id, $item) ? 'selected' : '' }}>
+                                {{ $material->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
