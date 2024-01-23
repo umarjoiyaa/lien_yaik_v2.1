@@ -111,34 +111,34 @@ class APIController extends Controller
     
                                 $user = User::first();
     
-                                $email = new MoistureHighEmail($user, $machine->name, $temp_moisture->moisture_high);
+                                $email = new MoistureHighEmail($user, $machine->name, $machine_moisture);
                                 Mail::to($user->email)->send($email);
     
                             }else if($machine_moisture < $temp_moisture->moisture_low){
     
                                 $user = User::first();
     
-                                $email = new MoistureLowEmail($user, $machine->name, $temp_moisture->moisture_low);
+                                $email = new MoistureLowEmail($user, $machine->name, $machine_moisture);
                                 Mail::to($user->email)->send($email);
     
                             }
     
                         }else{}
     
-                        if(!empty($temp_moisture->temp_high || $temp_moisture->temp_low)){
+                        if(!empty($temp_moisture->temperature_high || $temp_moisture->temperature_low)){
     
-                            if($machine_temperature > $temp_moisture->temp_high){
+                            if($machine_temperature > $temp_moisture->temperature_high){
     
                                 $user = User::first();
     
-                                $email = new TempHighEmail($user, $machine->name, $temp_moisture->temp_high);
+                                $email = new TempHighEmail($user, $machine->name, $machine_temperature);
                                 Mail::to($user->email)->send($email);
     
-                            }else if($machine_temperature < $temp_moisture->temp_low){
+                            }else if($machine_temperature < $temp_moisture->temperature_low){
     
                                 $user = User::first();
     
-                                $email = new TempLowEmail($user, $machine->name, $temp_moisture->temp_low);
+                                $email = new TempLowEmail($user, $machine->name, $machine_temperature);
                                 Mail::to($user->email)->send($email);
     
                             }
@@ -164,34 +164,34 @@ class APIController extends Controller
     
                                 $user = User::first();
     
-                                $email = new MoistureHighEmail($user, $machine->name, $temp_moisture->moisture_high);
+                                $email = new MoistureHighEmail($user, $machine->name, $machine_moisture);
                                 Mail::to($user->email)->send($email);
     
                             }else if($machine_moisture < $temp_moisture->moisture_low){
     
                                 $user = User::first();
     
-                                $email = new MoistureLowEmail($user, $machine->name, $temp_moisture->moisture_low);
+                                $email = new MoistureLowEmail($user, $machine->name, $machine_moisture);
                                 Mail::to($user->email)->send($email);
     
                             }
     
                         }else{}
     
-                        if(!empty($temp_moisture->temp_high || $temp_moisture->temp_low)){
+                        if(!empty($temp_moisture->temperature_high || $temp_moisture->temperature_low)){
     
-                            if($machine_temperature > $temp_moisture->temp_high){
+                            if($machine_temperature > $temp_moisture->temperature_high){
     
                                 $user = User::first();
     
-                                $email = new TempHighEmail($user, $machine->name, $temp_moisture->temp_high);
+                                $email = new TempHighEmail($user, $machine->name, $machine_temperature);
                                 Mail::to($user->email)->send($email);
     
-                            }else if($machine_temperature < $temp_moisture->temp_low){
+                            }else if($machine_temperature < $temp_moisture->temperature_low){
     
                                 $user = User::first();
     
-                                $email = new TempLowEmail($user, $machine->name, $temp_moisture->temp_low);
+                                $email = new TempLowEmail($user, $machine->name, $machine_temperature);
                                 Mail::to($user->email)->send($email);
     
                             }
