@@ -100,7 +100,7 @@ class APIController extends Controller
                         'machine_id' => $machine_ids,
                         'start_time' => $machine_time,
                         'temperature' => $machine_temperature,
-                        'moisture' => $machine_moisture
+                        'moisture' => $machine_moisture,
                     ]);
                         
                     if(!empty($temp_moisture)){
