@@ -70,7 +70,7 @@
                         <br>
                         <span>{{ $data->per_mold }}</span>
                         <br>
-                        <span>{{ $data->issued }}</span>
+                        <span>{{ $data->user->name }}</span>
                         <br>
                         <span>{{ $approved }}</span>
                     </div>
