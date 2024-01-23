@@ -37,15 +37,17 @@
                         </thead>
                         <tbody class="text-center">
                             @foreach ($roles as $role)
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $role->name }}</td>
-                                <td>
-                                    <a href="{{ route('role.edit', $role->id) }}"><iconify-icon icon="akar-icons:edit"
-                                            width="20" height="20" style="color: steelblue;"></iconify-icon></a>
-                                    <a data-delete="{{ route('role.destroy', $role->id) }}" class="delete_row"><iconify-icon
-                                            icon="fluent:delete-dismiss-24-filled" width="20" height="20"
-                                            style="color: red;"></iconify-icon></a>
-                                </td>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $role->name }}</td>
+                                    <td>
+                                        <a href="{{ route('role.edit', $role->id) }}"><iconify-icon icon="akar-icons:edit"
+                                                width="20" height="20" style="color: steelblue;"></iconify-icon></a>
+                                        <a data-delete="{{ route('role.destroy', $role->id) }}"
+                                            class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                                width="20" height="20" style="color: red;"></iconify-icon></a>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

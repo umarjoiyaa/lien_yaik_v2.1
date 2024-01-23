@@ -40,16 +40,18 @@
                         </thead>
                         <tbody class="text-center">
                             @foreach ($users as $user)
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
-                                    <a href="{{ route('user.edit', $user->id) }}"><iconify-icon icon="akar-icons:edit"
-                                            width="20" height="20" style="color: steelblue;"></iconify-icon></a>
-                                    <a data-delete="{{ route('user.destroy', $user->id) }}"
-                                        class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
-                                            width="20" height="20" style="color: red;"></iconify-icon></a>
-                                </td>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        <a href="{{ route('user.edit', $user->id) }}"><iconify-icon icon="akar-icons:edit"
+                                                width="20" height="20" style="color: steelblue;"></iconify-icon></a>
+                                        <a data-delete="{{ route('user.destroy', $user->id) }}"
+                                            class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                                width="20" height="20" style="color: red;"></iconify-icon></a>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

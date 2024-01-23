@@ -62,7 +62,7 @@ $("#addrows").on("click", function () {
                     <td name='uoms'>${uom}</td>
                     <td name='suppliers'>${supplier}</td>
                     <td><input type='number' value="1" id="qty_${$length}" class='form-control qty' name='items[${$length}][qty]'></td>
-                    <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
+                    <td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
 
         $("#myTable2 tbody").append(newRow);
 
@@ -73,7 +73,7 @@ $("#addrows").on("click", function () {
     $('#myTable2').dataTable();
 });
 
-$(document).on("click", ".delete_row", function () {
+$(document).on("click", ".delete_row1", function () {
 
     $('#myTable1').dataTable().fnDestroy();
     $('#myTable2').dataTable().fnDestroy();
@@ -108,7 +108,11 @@ $('.submit').click(function () {
 
     if (typeof (Storage) !== "undefined") {
         var tbody = $('#myTable2 tbody').html();
-        sessionStorage.setItem("savedMaterialIn", tbody);
+        if($('#myTable2 tbody tr').length > 1){
+            sessionStorage.setItem("savedMaterialIn", tbody);
+        }else{
+            sessionStorage.setItem("savedMaterialIn", '');
+        }
 
         $('#myTable2 tbody tr').each(function () {
             const inputIds = $(this).find("input[type=number]").attr('id');

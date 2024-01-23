@@ -101,7 +101,7 @@ class SupplierController extends Controller
         }
 
         $supplier = Supplier::find($id);
-        $Materials = Material::whereJsonContains('supplier_id', '=', $id)->first();
+        $Materials = Material::whereJsonContains('supplier_ids', $id)->first();
         if($Materials){
             return back()->with('custom_errors', 'This SUPPLIER is used in MATERIAL!');
         }

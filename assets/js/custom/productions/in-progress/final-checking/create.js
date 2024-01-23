@@ -111,7 +111,7 @@ $("#addrows").on("click", function () {
                     <td><input type='hidden' value='${id}' id="pellete_id" name="shotblast[${$length}][id]"/>${pellete}</td>
                     <td><input type="text" readonly name="shotblast[${$length}][weight]" class="form-control" value="${weight}"></td>
                     <td><input type="text" readonly name="shotblast[${$length}][pcs]" class="form-control pcs1" value="${pcs}"></td>
-                    <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon></a></td></tr>`);
+                    <td><a class="delete_row3"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon></a></td></tr>`);
 
         $("#myTable2 tbody").append(newRow);
 
@@ -176,7 +176,7 @@ $("#addrows2").on("click", function () {
     $('#myTable6').dataTable();
 });
 
-$(document).on("click", ".delete_row", function () {
+$(document).on("click", ".delete_row3", function () {
 
     $('#myTable1').dataTable().fnDestroy();
     $('#myTable2').dataTable().fnDestroy();
@@ -286,8 +286,16 @@ $('.submit').click(function () {
     if (typeof (Storage) !== "undefined") {
         var tbody2 = $('#myTable4 tbody').html();
         var tbody3 = $('#myTable6 tbody').html();
-        sessionStorage.setItem("savedFinalChecking2", tbody2);
-        sessionStorage.setItem("savedFinalChecking3", tbody3);
+        if ($('#myTable4 tbody tr').length > 1) {
+            sessionStorage.setItem("savedFinalChecking2", tbody2);
+        } else {
+            sessionStorage.setItem("savedFinalChecking2", '');
+        }
+        if ($('#myTable6 tbody tr').length > 1) {
+            sessionStorage.setItem("savedFinalChecking3", tbody3);
+        } else {
+            sessionStorage.setItem("savedFinalChecking3", '');
+        }
 
         $('#myTable4 tbody tr').each(function () {
             const inputIds = $(this).find("td:eq(1) input").attr('id');

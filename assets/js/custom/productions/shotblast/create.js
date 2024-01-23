@@ -97,7 +97,11 @@ $('.submit').click(function () {
 
     if (typeof (Storage) !== "undefined") {
         var tbody = $('#myTable2 tbody').html();
-        sessionStorage.setItem("savedShotblast", tbody);
+        if ($('#myTable2 tbody tr').length > 1) {
+            sessionStorage.setItem("savedShotblast", tbody);
+        } else {
+            sessionStorage.setItem("savedShotblast", '');
+        }
 
         $('#myTable2 tbody tr').each(function () {
             const inputIds = $(this).find("td:eq(1) input").attr('id');

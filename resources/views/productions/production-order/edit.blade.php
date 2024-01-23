@@ -197,7 +197,7 @@
                                         <td><input readonly type="number" id="need_{{ $key }}"
                                                 name="items[{{ $key }}][need]" value="{{ $detail->need }}"
                                                 class="form-control need"></td>
-                                        <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                        <td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled"
                                                     width="20" height="20" style="color: red;"></iconify-icon><a>
                                         </td>
                                     </tr>

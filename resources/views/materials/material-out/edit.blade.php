@@ -70,7 +70,7 @@
                                         @endforeach
                                         <td><input type="number" name="items[{{ $key }}][qty]"
                                                 value="{{ $detail->qty }}" class="form-control"></td>
-                                        <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                        <td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled"
                                                     width="20" height="20" style="color: red;"></iconify-icon><a>
                                         </td>
                                     </tr>

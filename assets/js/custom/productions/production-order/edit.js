@@ -55,7 +55,7 @@ $("#addrows").on("click", function () {
                     <td><input type='number' value="${value}" id="available_qty_${$length}" class='form-control available_qty1' name='items[${$length}][available]' readonly></td>
                     <td><input type='number' value="" id="required_qty_${$length}" class='form-control required_qty' name='items[${$length}][required]'></td>
                     <td><input type='number' value="" id="need_${$length}" class='form-control need' name='items[${$length}][need]' readonly></td>
-                    <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
+                    <td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
 
         $("#myTable2 tbody").append(newRow);
 
@@ -66,7 +66,7 @@ $("#addrows").on("click", function () {
     $('#myTable2').dataTable();
 });
 
-$(document).on("click", ".delete_row", function () {
+$(document).on("click", ".delete_row1", function () {
 
     $('#myTable1').dataTable().fnDestroy();
     $('#myTable2').dataTable().fnDestroy();

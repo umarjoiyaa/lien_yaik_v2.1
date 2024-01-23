@@ -84,7 +84,7 @@ $("#addrows").on("click", function () {
                     <td><input type='hidden' value='${id}' id="pellete_id" name="shotblast[${$length}][id]"/>${pellete}</td>
                     <td><input type="text" readonly name="shotblast[${$length}][weight]" class="form-control" value="${weight}"></td>
                     <td><input type="text" readonly name="shotblast[${$length}][pcs]" class="form-control pcs1" value="${pcs}"></td>
-                    <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon></a></td></tr>`);
+                    <td><a class="delete_row3"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon></a></td></tr>`);
 
         $("#myTable2 tbody").append(newRow);
 
@@ -149,7 +149,7 @@ $("#addrows2").on("click", function () {
     $('#myTable6').dataTable();
 });
 
-$(document).on("click", ".delete_row", function () {
+$(document).on("click", ".delete_row3", function () {
 
     $('#myTable1').dataTable().fnDestroy();
     $('#myTable2').dataTable().fnDestroy();

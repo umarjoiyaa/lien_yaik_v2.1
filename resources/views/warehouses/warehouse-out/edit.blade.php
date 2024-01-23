@@ -129,7 +129,7 @@
                                                 value="{{ $detail->weight }}" class="form-control weight"></td>
                                         <td><input readonly type="number" name="pelletes[{{ $key }}][pcs]"
                                                 value="{{ $detail->pcs }}" class="form-control pcs"></td>
-                                        <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                        <td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled"
                                                     width="20" height="20" style="color: red;"></iconify-icon></a>
                                         </td>
                                     </tr>

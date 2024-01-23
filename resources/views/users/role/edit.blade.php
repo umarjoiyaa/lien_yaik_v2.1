@@ -268,7 +268,7 @@
                                     <iconify-icon class="menu-arrow ms-5" icon="solar:alt-arrow-down-outline"
                                         width="20" height="20"></iconify-icon>
                                     <ul class="sub-menu1 check_name">
-                                        @foreach ($productions as $key => $inprogress)
+                                        @foreach ($inprogresses as $key => $inprogress)
                                             @php
                                                 $let = 0;
                                             @endphp

@@ -39,7 +39,7 @@ function addPellete(value) {
                 } else {
                     $length = $('#myTable1 tbody tr').length;
                     $('#myTable1').dataTable().fnDestroy();
-                    $('#myTable1 tbody').append(`<tr><td><input value="${data.pellete.id}" hidden name="pelletes[${$length}][id]" class="form-control pellete_id">${data.pellete.pellete_no}</td><td><input readonly name="pelletes[${$length}][weight]" type="number" value="${data.pellete.weight}" class="form-control weight" id="weight_${$length}}"></td><td><input readonly name="pelletes[${$length}][pcs]" type="number" class="form-control pcs" value="${data.pellete.pcs}"></td><td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
+                    $('#myTable1 tbody').append(`<tr><td><input value="${data.pellete.id}" hidden name="pelletes[${$length}][id]" class="form-control pellete_id">${data.pellete.pellete_no}</td><td><input readonly name="pelletes[${$length}][weight]" type="number" value="${data.pellete.weight}" class="form-control weight" id="weight_${$length}}"></td><td><input readonly name="pelletes[${$length}][pcs]" type="number" class="form-control pcs" value="${data.pellete.pcs}"></td><td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
                     $('#myTable1').dataTable();
                     pallet_id.push(data.pellete.id);
                     $('#pallet_error').find('ul').remove();
@@ -69,7 +69,7 @@ $("#search").click(function () {
     $(this).removeAttr('disabled');
 });
 
-$(document).on('click', '.delete_row', function () {
+$(document).on('click', '.delete_row1', function () {
     $('#myTable1').dataTable().fnDestroy();
     temp = $(this).closest('tr').find('.pellete_id').val();
     pallet_id = pallet_id.filter(function (item) {
@@ -108,7 +108,11 @@ $('.submit').click(function () {
 
     if (typeof (Storage) !== "undefined") {
         var tbody = $('#myTable1 tbody').html();
-        sessionStorage.setItem("savedWarehouseIn", tbody);
+        if ($('#myTable4 tbody tr').length > 1) {
+            sessionStorage.setItem("savedWarehouseIn", tbody);
+        } else {
+            sessionStorage.setItem("savedWarehouseIn", '');
+        }
 
         $('#myTable1 tbody tr').each(function () {
             const inputIds = $(this).find("td:eq(1) input").attr('id');

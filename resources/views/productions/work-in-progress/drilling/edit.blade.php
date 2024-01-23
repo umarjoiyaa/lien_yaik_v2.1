@@ -102,7 +102,7 @@
                                                 value="{{ $shotblast->weight }}" class="form-control"></td>
                                         <td><input readonly type="number" name="shotblast[{{ $key }}][pcs]"
                                                 value="{{ $shotblast->pcs }}" class="form-control"></td>
-                                        <td><a class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                        <td><a class="delete_row3"><iconify-icon icon="fluent:delete-dismiss-24-filled"
                                                     width="20" height="20" style="color: red;"></iconify-icon></a>
                                         </td>
                                     </tr>
