@@ -37,7 +37,7 @@
                         <thead class="table-dark" style="color: white; background: #8d9db6;">
                             <tr>
                                 <th style="font-size: 13px;">
-                                    Pallet
+                                    Pellete
                                 </th>
                                 @if (isset($dateIn))
                                     @foreach ($dateIn as $row)
