@@ -13,4 +13,8 @@ class MachineApiSum extends Model
 
     public $fillable = ['machine_id', 'batch_id', 'press_id', 'sum_cavity', 'date'];
 
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class, 'batch_id', 'id');
+    }
 }

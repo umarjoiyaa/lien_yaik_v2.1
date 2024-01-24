@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div id="productionGraph"></div>
+                <div id="productionGraph" style="height: 25vh;"></div>
             </div>
         </div>
     </div>
@@ -29,8 +29,12 @@
 @push('custom-scripts')
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/daterangepicker.min.js') }}"></script>
-    <script src="{{ asset('assets/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/echarts.min.js') }}"></script>
     <script>
+        var dates = [];
+        var temp = [];
+        var moisture = [];
+
         $(document).ready(function() {
             $("#daterangepicker").daterangepicker({
                 locale: {
@@ -57,61 +61,106 @@
                     $.each(data.temp, function(index, value) {
                         dates[i] = value.created_at;
                         temp[i] = value.temperature;
-                        mositure[i] = value.moisture;
+                        moisture[i] = value.moisture;
                         i++;
                     });
 
-                    var options = {
-                        chart: {
-                            height: 350,
-                            type: 'bar',
-                        },
-                        title: {
-                            text: 'Temperature and Moisture Change',
-                        },
+                    var myChart = echarts.init(document.getElementById('productionGraph'));
+
+                    var chartDom = document.getElementById('productionGraph');
+                    var myChart = echarts.init(chartDom, 'dark');
+                    var option;
+
+                    option = {
                         tooltip: {
-                            shared: true,
-                            intersect: false,
+                            trigger: 'axis'
                         },
-                        xaxis: {
-                            categories: data.dates,
-                        },
-                        yaxis: [{
-                                title: {
-                                    text: 'Moisture',
+                        legend: {},
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
                                 },
-                            },
-                            {
-                                opposite: true,
-                                title: {
-                                    text: 'Temperature',
+                                magicType: {
+                                    type: ['line', 'bar']
                                 },
-                            },
-                        ],
-                        legend: {
-                            position: 'top',
+                                restore: {},
+                                saveAsImage: {}
+                            }
                         },
-                        stroke: {
-                            width: [0, 4],
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: data.dates
                         },
-                        dataLabels: {
-                            enabled: true
+                        yAxis: {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '{value}'
+                            }
                         },
                         series: [{
                                 name: 'Moisture',
-                                type: 'bar',
-                                data: data.moisture,
+                                type: 'line',
+                                data: moisture,
+                                markPoint: {
+                                    data: [{
+                                            type: 'max',
+                                            name: 'Max'
+                                        },
+                                        {
+                                            type: 'min',
+                                            name: 'Min'
+                                        }
+                                    ]
+                                },
+                                markLine: {
+                                    data: [{
+                                        type: 'average',
+                                        name: 'Avg'
+                                    }]
+                                }
                             },
                             {
                                 name: 'Temperature',
-                                type: 'bar',
-                                data: data.temp,
-                            },
-                        ],
+                                type: 'line',
+                                data: temp,
+                                markPoint: {
+                                    data: [{
+                                        name: '周最低',
+                                        value: -2,
+                                        xAxis: 1,
+                                        yAxis: -1.5
+                                    }]
+                                },
+                                markLine: {
+                                    data: [{
+                                            type: 'average',
+                                            name: 'Avg'
+                                        },
+                                        [{
+                                                symbol: 'none',
+                                                x: '90%',
+                                                yAxis: 'max'
+                                            },
+                                            {
+                                                symbol: 'circle',
+                                                label: {
+                                                    position: 'start',
+                                                    formatter: 'Max'
+                                                },
+                                                type: 'max',
+                                                name: '最高点'
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        ]
                     };
 
-                    var chart = new ApexCharts(document.querySelector("#productionGraph"), options);
-                    chart.render();
+                    option && myChart.setOption(option);
                 }
             });
         }
