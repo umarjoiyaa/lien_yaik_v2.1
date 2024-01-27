@@ -16,26 +16,28 @@ use Illuminate\Support\Facades\DB;
 
 class ProductionOrderController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         if (
             Auth::user()->hasPermissionTo('Production Order List') ||
             Auth::user()->hasPermissionTo('Production Order Create') ||
             Auth::user()->hasPermissionTo('Production Order Edit') ||
             Auth::user()->hasPermissionTo('Production Order Delete')
         ) {
-            $productions = ProductionOrder::with('product','batch')->get();
+            $productions = ProductionOrder::with('product', 'batch')->get();
             Helper::logSystemActivity('Production Order', 'Production Order List');
             return view('productions.production-order.index', compact('productions'));
         }
         return back()->with('custom_errors', 'You don`t have Right Permission');
     }
-    
-    public function create(){
+
+    public function create()
+    {
         if (!Auth::user()->hasPermissionTo('Production Order Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
 
-        $orders = PurchaseOrder::select('id','order_no')->where('status', 1)->get();
+        $orders = PurchaseOrder::select('id', 'order_no')->where('status', 1)->get();
         $batches = Batch::all();
         $machines = Machine::all();
 
@@ -56,14 +58,15 @@ class ProductionOrderController extends Controller
             ->join('suppliers', function ($join2) {
                 $join2->whereRaw('JSON_SEARCH(materials.supplier_ids, "one", suppliers.id) IS NOT NULL');
             })
-            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type','material_inventories.value')
+            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type', 'material_inventories.value')
             ->get();
 
         Helper::logSystemActivity('Production Order', 'Production Order Create');
         return view('productions.production-order.create', compact('orders', 'batches', 'machines', 'materials'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         if (!Auth::user()->hasPermissionTo('Production Order Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -122,13 +125,14 @@ class ProductionOrderController extends Controller
         return redirect()->route('production.index')->with('custom_success', 'Production Order has been Succesfully Created!');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         if (!Auth::user()->hasPermissionTo('Production Order Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
 
-        $orders = PurchaseOrder::select('id','order_no')->where('status', 1)->get();
+        $orders = PurchaseOrder::select('id', 'order_no')->where('status', 1)->get();
         $batches = Batch::all();
         $machines = Machine::all();
         $production = ProductionOrder::find($id);
@@ -151,14 +155,15 @@ class ProductionOrderController extends Controller
             ->join('suppliers', function ($join2) {
                 $join2->whereRaw('JSON_SEARCH(materials.supplier_ids, "one", suppliers.id) IS NOT NULL');
             })
-            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type','material_inventories.value')
+            ->groupBy('materials.id', 'materials.name', 'categories.name', 'materials.type', 'material_inventories.value')
             ->get();
 
         Helper::logSystemActivity('Production Order', 'Production Order Edit');
         return view('productions.production-order.edit', compact('production', 'orders', 'batches', 'machines', 'details', 'materials'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         if (!Auth::user()->hasPermissionTo('Production Order Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -199,14 +204,9 @@ class ProductionOrderController extends Controller
         $production->save();
 
         $delete = ProductionOrderDetail::where('po_id', '=', $id);
+        $delete->delete();
 
         foreach ($request->items as $value) {
-            $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value['id'])->first();
-            $total = ($value['required']) ? $value['required'] : 0;
-            $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
-            $stock->value = (float)$stock->value - ((float)$total + (float)$deduct_qty->required);
-            $stock->save();
-
             $details = new ProductionOrderDetail();
             $details->po_id = $production->id;
             $details->item_id = $value['id'];
@@ -214,15 +214,21 @@ class ProductionOrderController extends Controller
             $details->required = $value['required'] ?? 0;
             $details->need = $value['need'] ?? 0;
             $details->save();
+
+            $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value['id'])->first();
+            $total = ($value['required']) ? $value['required'] : 0;
+            $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
+            $stock->value = (float)$stock->value - ((float)$total + (float)$deduct_qty->required);
+            $stock->save();
         }
 
-        $delete->delete();
 
         Helper::logSystemActivity('Production Order', 'Production Order Update');
-        return redirect()->route('production.index')->with('custom_success', 'Production Order has been Succesfully Updated!');        
+        return redirect()->route('production.index')->with('custom_success', 'Production Order has been Succesfully Updated!');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
         if (!Auth::user()->hasPermissionTo('Production Order Delete')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -232,7 +238,7 @@ class ProductionOrderController extends Controller
         $details = ProductionOrderDetail::where('po_id', '=', $id)->get();
         foreach ($details as $value) {
             $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value->item_id)->first();
-            $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();  
+            $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();
             $stock->value = (float)$stock->value + (float)$deduct_qty->required;
             $stock->save();
         }
@@ -256,14 +262,14 @@ class ProductionOrderController extends Controller
             'products.name as product_name',
             'inventories.value'
         )
-        ->join('products', 'purchase_orders.product_id', '=', 'products.id')
-        ->leftJoin('inventories', function ($join) {
-            $join->on('inventories.product_id', '=', 'purchase_orders.product_id')
-                 ->join('production_orders', 'inventories.product_id', '=', 'production_orders.product_id')
-                 ->where('production_orders.product_id', '=', DB::raw('purchase_orders.product_id'));
-        })
-        ->where('purchase_orders.id', $request->id)
-        ->first();
+            ->join('products', 'purchase_orders.product_id', '=', 'products.id')
+            ->leftJoin('inventories', function ($join) {
+                $join->on('inventories.product_id', '=', 'purchase_orders.product_id')
+                    ->join('production_orders', 'inventories.product_id', '=', 'production_orders.product_id')
+                    ->where('production_orders.product_id', '=', DB::raw('purchase_orders.product_id'));
+            })
+            ->where('purchase_orders.id', $request->id)
+            ->first();
 
         return response()->json($result);
     }

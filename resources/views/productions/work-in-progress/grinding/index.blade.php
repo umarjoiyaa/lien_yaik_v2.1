@@ -51,7 +51,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $grinding->batch->batch_no }}</td>
                                 <td>{{ $grinding->remarks }}</td>
-                                <td>{{ Carbon\Carbon::parse($grinding->date)->format('Y-m-d') }}</td>
+                                <td>{{ Carbon\Carbon::parse($grinding->date)->format('d-m-Y') }}</td>
                                 <td>{{ $grinding->user->name }}</td>
                                 <td>
                                     <a href="{{ route('grinding.edit', $grinding->id) }}"><iconify-icon

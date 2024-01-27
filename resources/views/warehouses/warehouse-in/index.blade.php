@@ -51,12 +51,12 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $warehouse_in->batch->batch_no }}</td>
                                 <td>{{ $warehouse_in->remarks }}</td>
-                                <td>{{ Carbon\Carbon::parse($warehouse_in->date)->format('Y-m-d') }}</td>
+                                <td>{{ Carbon\Carbon::parse($warehouse_in->date)->format('d-m-Y') }}</td>
                                 <td>{{ $warehouse_in->user->name }}</td>
                                 <td>
                                     <a href="{{ route('warehouse-in.scan', $warehouse_in->id) }}"><iconify-icon
-                                        icon="arcticons:lexmark-print" width="20" height="20"
-                                        style="color: black;"></iconify-icon></a> 
+                                            icon="arcticons:lexmark-print" width="20" height="20"
+                                            style="color: black;"></iconify-icon></a>
 
                                     <a href="{{ route('warehouse-in.edit', $warehouse_in->id) }}"><iconify-icon
                                             icon="akar-icons:edit" width="20" height="20"

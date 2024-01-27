@@ -16,7 +16,7 @@ class DashboardController extends Controller
         if (!Auth::user()->hasPermissionTo('Dashboard')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-        
+
         Helper::logSystemActivity('Dashboard', 'View Dashboard');
         return view('dashboard.main.index');
     }
@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $output = '';
 
         foreach ($results as $result) {
-            $date = $result->created_at->format('Y-m-d');
+            $date = $result->created_at->format('d-m-Y');
             $batch = $result->batch;
             $final = $batch->finalChecking;
             $warehouse = $batch->warehouseIn;

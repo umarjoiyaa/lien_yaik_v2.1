@@ -16,7 +16,7 @@ class ProductionDashboardController extends Controller
         if (!Auth::user()->hasPermissionTo('Production Dashboard')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-        
+
         Helper::logSystemActivity('Production Dashboard', 'View Production Dashboard');
         return view('dashboard.production.index');
     }
@@ -28,9 +28,9 @@ class ProductionDashboardController extends Controller
 
         $date = array();
         $temperature = TemperatureMoistureApi::whereBetween('created_at', [$startDate,$endDate])->get();
-        
+
         foreach($temperature as $temp){
-           $date[] = $temp->created_at->format('Y-m-d');
+           $date[] = $temp->created_at->format('d-m-Y');
         }
 
         Helper::logSystemActivity('Production Dashboard', 'Generate Production Dashboard');

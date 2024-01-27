@@ -49,9 +49,9 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $batch->batch_no }}</td>
-                                <td>{{ $batch->planned_start }}</td>
-                                <td>{{ $batch->planned_end }}</td>
-                                <td>{{ $batch->duration }} Hours</td>
+                                <td>{{ Carbon\Carbon::parse($batch->planned_start)->format('d-m-Y H:i:s') }}</td>
+                                <td>{{ Carbon\Carbon::parse($batch->planned_end)->format('d-m-Y H:i:s') }}</td>
+                                <td>{{ $batch->duration }}</td>
                                 <td>
                                     <a href="{{ route('batch.edit', $batch->id) }}"><iconify-icon icon="akar-icons:edit"
                                             width="20" height="20" style="color: steelblue;"></iconify-icon></a>

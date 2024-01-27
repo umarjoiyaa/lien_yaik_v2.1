@@ -51,7 +51,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $drilling->batch->batch_no }}</td>
                                 <td>{{ $drilling->remarks }}</td>
-                                <td>{{ Carbon\Carbon::parse($drilling->date)->format('Y-m-d') }}</td>
+                                <td>{{ Carbon\Carbon::parse($drilling->date)->format('d-m-Y') }}</td>
                                 <td>{{ $drilling->user->name }}</td>
                                 <td>
                                     <a href="{{ route('drilling.edit', $drilling->id) }}"><iconify-icon

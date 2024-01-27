@@ -117,7 +117,7 @@ $('#purchase_order').on('change', function () {
                 $(".available_qty").val((data.value == null) ? 0 : data.value);
                 $('#reject').trigger('input');
             },
-            error: function (xhr, status, error) {}
+            error: function (xhr, status, error) { }
         });
     }
 });
@@ -140,7 +140,8 @@ function calculateRawMaterial() {
 function calculateNeededQuantity() {
     var available = parseFloat($(this).closest('tr').find('.available_qty1').val()) || 0;
     var required = parseFloat($(this).val()) || 0;
-    var need = available - required;
+    var need = required - available;
+    need = Math.max(need, 0);
     $(this).parents("tr").find('.need').val(isNaN(need) ? '' : need);
 }
 

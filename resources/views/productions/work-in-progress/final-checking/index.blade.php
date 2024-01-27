@@ -51,7 +51,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $final_checking->batch->batch_no }}</td>
                                 <td>{{ $final_checking->remarks }}</td>
-                                <td>{{ Carbon\Carbon::parse($final_checking->date)->format('Y-m-d') }}</td>
+                                <td>{{ Carbon\Carbon::parse($final_checking->date)->format('d-m-Y') }}</td>
                                 <td>{{ $final_checking->user->name }}</td>
                                 <td>
                                     <a href="{{ route('final-checking.edit', $final_checking->id) }}"><iconify-icon

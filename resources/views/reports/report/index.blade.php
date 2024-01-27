@@ -19,10 +19,11 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label for="">SELECT (FROM - TO)</label>
-                                <input id='daterangepicker' class="form-control text-center" value="{{$startDate}} - {{$endDate}}">
+                                <input id='daterangepicker' class="form-control text-center"
+                                    value="{{ $startDate }} - {{ $endDate }}">
                             </div>
-                            <input type="hidden" id="start" name="start_date" value="{{$startDate}}">
-                            <input type="hidden" id="end" name="end_date" value="{{$endDate}}">
+                            <input type="hidden" id="start" name="start_date" value="{{ $startDate }}">
+                            <input type="hidden" id="end" name="end_date" value="{{ $endDate }}">
                         </div>
                         <div class="col-sm-2 mt-6">
                             <button type="submit" class="btn btn btn-info">Generate Report</button>
@@ -42,7 +43,7 @@
                                 @if (isset($dateIn))
                                     @foreach ($dateIn as $row)
                                         <th>
-                                            {{ $row->dateonly }}
+                                            {{ Carbon\Carbon::parse($row->dateonly)->format('d-m-Y') }}
                                         </th>
                                     @endforeach
                                 @endif
@@ -52,7 +53,7 @@
                                 @if (isset($dateOut))
                                     @foreach ($dateOut as $row)
                                         <th>
-                                            {{ $row->dateonly }}
+                                            {{ Carbon\Carbon::parse($row->dateonly)->format('d-m-Y') }}
                                         </th>
                                     @endforeach
                                 @endif
@@ -63,7 +64,6 @@
                         </thead>
                         <tbody>
                             @if (isset($data))
-                           
                                 @foreach ($data as $row)
                                     <tr>
                                         <td>{{ $row['pellete'] }}</td>

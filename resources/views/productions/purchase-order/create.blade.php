@@ -17,8 +17,8 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="" class="form-label">Customer Name</label>
-                            <input type="text" class="form-control" name="customer_name" value="{{ old('customer_name') }}"
-                               >
+                            <input type="text" class="form-control" name="customer_name"
+                                value="{{ old('customer_name') }}">
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -27,7 +27,8 @@
                             <select name="product" class="form-select">
                                 <option value="" selected disabled>Select an option</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}" @selected($product->id == old('product'))>{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" @selected($product->id == old('product'))>{{ $product->name }}
+                                    </option>
                                 @endforeach
                             </select>
 
@@ -37,7 +38,9 @@
                         <label for="" class="form-label">Material</label>
                         <select name="material[]" multiple class="form-select">
                             @foreach ($materials as $material)
-                                <option value="{{ $material->id }}" {{ old('material') && in_array($user->id, old('material')) ? 'selected' : '' }} @selected($material->id == old('material'))>{{ $material->name }}</option>
+                                <option value="{{ $material->id }}"
+                                    {{ old('material') && in_array($material->id, old('material')) ? 'selected' : '' }}
+                                    @selected($material->id == old('material'))>{{ $material->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -59,7 +62,8 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="" class="form-label">Customer Request Date</label>
-                            <input type="date" name="request_date" class="form-control" value="{{ old('request_date') }}">
+                            <input type="date" name="request_date" class="form-control"
+                                value="{{ old('request_date') }}">
                         </div>
                     </div>
                 </div>
@@ -79,11 +83,13 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-abel">Cavities</label>
-                        <input type="number" name="cavities" class="form-control" id="input1" value="{{ old('cavities') }}">
+                        <input type="number" name="cavities" class="form-control" id="input1"
+                            value="{{ old('cavities') }}">
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-label">Unit KG</label>
-                        <input type="number" name="unit_kg" id="input2" class="form-control" value="{{ old('unit_kg') }}">
+                        <input type="number" name="unit_kg" id="input2" class="form-control"
+                            value="{{ old('unit_kg') }}">
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-label">Weight</label>
@@ -96,7 +102,8 @@
                         <h6>PURCHASE ORDER ISSUED BY :</h6>
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" readonly name="issued_by" value="{{ Auth::user()->name }}"/>
+                        <input type="text" class="form-control" readonly name="issued_by"
+                            value="{{ Auth::user()->name }}" />
                     </div>
                 </div>
 
@@ -107,7 +114,9 @@
                     <div class="col-sm-3">
                         <select name="approved_by[]" multiple class="form-select">
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ old('approved_by') && in_array($user->id, old('approved_by')) ? 'selected' : '' }}>{{ $user->name }}</option>
+                                <option value="{{ $user->id }}"
+                                    {{ old('approved_by') && in_array($user->id, old('approved_by')) ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>

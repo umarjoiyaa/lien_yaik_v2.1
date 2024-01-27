@@ -83,7 +83,7 @@ class MaterialInController extends Controller
             $stock->value = (float)$stock->value + (float)$total;
             $stock->save();
         }
-        
+
         Helper::logSystemActivity('Material In', 'Material In Store');
         return redirect()->route('material-in.index')->with('custom_success', 'Material In has been Succesfully Created!');;
     }
@@ -134,29 +134,47 @@ class MaterialInController extends Controller
         $material_ins->pic = Auth::user()->id;
         $material_ins->save();
 
-        $delete = MaterialInDetail::where('mi_id', '=', $id);
+        $materialInDetails = MaterialInDetail::where('mi_id', '=', $id)->get();
 
         foreach ($request->items as $value) {
-            $deduct_qty = MaterialInDetail::where('mi_id', '=', $id)->where('item_id', '=', $value['id'])->first();
+            $deductQty = $materialInDetails->where('item_id', '=', $value['id'])->first();
             $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
-            $total = ($value['qty'] <= 0) ? 1 : $value['qty'];
-            $stock->value = (float)$stock->value + ((float)$total - (float)$deduct_qty->qty);
-            $stock->save();
 
-            $material_in_details = new MaterialInDetail();
-            $material_in_details->mi_id = $id;
-            $material_in_details->item_id = $value['id'];
-            $material_in_details->qty = ($value['qty'] <= 0) ? 1 : $value['qty'];
-            $material_in_details->save();
+            $total = max($value['qty'], 1); // Ensures total is at least 1
+
+            $retVal = optional($deductQty)->qty ?? 0;
+
+            $stock->update([
+                'value' => $stock->value + ($total - $retVal)
+            ]);
+
+            if ($deductQty) {
+                $deductQty->update([
+                    'qty' => $total
+                ]);
+            } else {
+                // If record doesn't exist, create a new one
+                MaterialInDetail::create([
+                    'mi_id' => $id,
+                    'item_id' => $value['id'],
+                    'qty' => $total
+                ]);
+            }
         }
-        
-        $delete->delete();
+
+        // Delete unwanted records
+        MaterialInDetail::where('mi_id', '=', $id)->whereNotIn('item_id', array_column($request->items, 'id'))->delete();
+
+
+
+
 
         Helper::logSystemActivity('Material In', 'Material In Update');
         return redirect()->route('material-in.index')->with('custom_success', 'Material In has been Succesfully Updated!');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
         if (!Auth::user()->hasPermissionTo('Material In Delete')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -166,7 +184,7 @@ class MaterialInController extends Controller
         $details = MaterialInDetail::where('mi_id', '=', $id)->get();
         foreach ($details as $value) {
             $deduct_qty = MaterialInDetail::where('mi_id', '=', $id)->where('item_id', '=', $value->item_id)->first();
-            $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();  
+            $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();
             $stock->value = (float)$stock->value - (float)$deduct_qty->qty;
             $stock->save();
         }

@@ -12,13 +12,14 @@ use Illuminate\Validation\Rule;
 
 class BatchController extends Controller
 {
-    public function index(){
-        if(
+    public function index()
+    {
+        if (
             Auth::user()->hasPermissionTo('Batch List') ||
             Auth::user()->hasPermissionTo('Batch Create') ||
             Auth::user()->hasPermissionTo('Batch Edit') ||
             Auth::user()->hasPermissionTo('Batch Delete')
-        ){
+        ) {
             $batches = Batch::all();
             Helper::logSystemActivity('Batch', 'Batch List');
             return view('productions.batch.index', compact('batches'));
@@ -26,7 +27,8 @@ class BatchController extends Controller
         return back()->with('custom_errors', 'You don`t have Right Permission');
     }
 
-    public function create(){
+    public function create()
+    {
         if (!Auth::user()->hasPermissionTo('Batch Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
@@ -35,7 +37,8 @@ class BatchController extends Controller
         return view('productions.batch.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         if (!Auth::user()->hasPermissionTo('Batch Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
@@ -67,15 +70,21 @@ class BatchController extends Controller
         $batch = new Batch();
         $batch->batch_no = $request->batch_no;
         $batch->planned_start = Carbon::parse($request->planned_start);
+        $start = Carbon::parse($request->planned_start);
         $batch->planned_end = Carbon::parse($request->planned_end);
-        $batch->duration = Carbon::parse($request->planned_end)->diffInHours(Carbon::parse($request->planned_start));
+        $end = Carbon::parse($request->planned_end);
+        $time_diff = $start->diff($end);
+        $time_diff = $time_diff->d . ' Day(s) ' .$time_diff->h . ' Hour(s) ' . $time_diff->i . ' Min(s)';
+        $batch->duration =  $time_diff;
         $batch->save();
-        
-        Helper::logSystemActivity('Batch', 'Batch Store');
-        return redirect()->route('batch.index')->with('custom_success', 'Batch has been Succesfully Created!');    }
 
-    public function edit($id){
-        if(!Auth::user()->hasPermissionTo('Batch Edit')){
+        Helper::logSystemActivity('Batch', 'Batch Store');
+        return redirect()->route('batch.index')->with('custom_success', 'Batch has been Succesfully Created!');
+    }
+
+    public function edit($id)
+    {
+        if (!Auth::user()->hasPermissionTo('Batch Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
         $batch = Batch::find($id);
@@ -83,11 +92,12 @@ class BatchController extends Controller
         return view('productions.batch.edit', compact('batch'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         if (!Auth::user()->hasPermissionTo('Batch Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-        
+
         $request->validate([
             'batch_no' => [
                 'required',
@@ -115,22 +125,27 @@ class BatchController extends Controller
         $batch = Batch::find($id);
         $batch->batch_no = $request->batch_no;
         $batch->planned_start = Carbon::parse($request->planned_start);
+        $start = Carbon::parse($request->planned_start);
         $batch->planned_end = Carbon::parse($request->planned_end);
-        $batch->duration = Carbon::parse($request->planned_end)->diffInHours(Carbon::parse($request->planned_start));
+        $end = Carbon::parse($request->planned_end);
+        $time_diff = $start->diff($end);
+        $time_diff = $time_diff->d . ' Day(s) ' .$time_diff->h . ' Hour(s) ' . $time_diff->i . ' Min(s)';
+        $batch->duration =  $time_diff;
         $batch->save();
 
         Helper::logSystemActivity('Batch', 'Batch Update');
         return redirect()->route('batch.index')->with('custom_success', 'Batch has been Succesfully Updated!');
     }
 
-    public function destroy($id){
-        if(!Auth::user()->hasPermissionTo('Batch Delete')){
+    public function destroy($id)
+    {
+        if (!Auth::user()->hasPermissionTo('Batch Delete')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-        
+
         $batch = Batch::find($id);
         $production = ProductionOrder::where('batch_id', '=', $id)->first();
-        if($production){
+        if ($production) {
             return back()->with('custom_errors', 'This BATCH is used in PRODUCTION ORDER!');
         }
         $batch->delete();
@@ -138,5 +153,4 @@ class BatchController extends Controller
         Helper::logSystemActivity('Batch', 'Batch Delete');
         return redirect()->route('batch.index')->with('custom_success', 'Batch has been Succesfully Deleted!');
     }
-
 }

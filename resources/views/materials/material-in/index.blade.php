@@ -42,15 +42,15 @@
                         @foreach ($material_ins as $material_in)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $material_in->date }}</td>
+                                <td>{{ Carbon\Carbon::parse($material_in->date)->format('d-m-Y') }}</td>
                                 <td>{{ $material_in->user->name }}</td>
                                 <td>
                                     <a href="{{ route('material-in.edit', $material_in->id) }}"><iconify-icon
                                             icon="akar-icons:edit" width="20" height="20"
                                             style="color: steelblue;"></iconify-icon></a>
-                                    <a data-delete="{{ route('material-in.destroy', $material_in->id) }}" class="delete_row"><iconify-icon
-                                            icon="fluent:delete-dismiss-24-filled" width="20" height="20"
-                                            style="color: red;"></iconify-icon></a>
+                                    <a data-delete="{{ route('material-in.destroy', $material_in->id) }}"
+                                        class="delete_row"><iconify-icon icon="fluent:delete-dismiss-24-filled"
+                                            width="20" height="20" style="color: red;"></iconify-icon></a>
                                 </td>
                             </tr>
                         @endforeach

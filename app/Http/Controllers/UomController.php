@@ -11,7 +11,8 @@ use Illuminate\Validation\Rule;
 
 class UomController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         if (
             Auth::user()->hasPermissionTo('UOM List') ||
             Auth::user()->hasPermissionTo('UOM Create') ||
@@ -24,8 +25,9 @@ class UomController extends Controller
         }
         return back()->with('custom_errors', 'You don`t have Right Permission');
     }
-    
-    public function create(){
+
+    public function create()
+    {
         if (!Auth::user()->hasPermissionTo('UOM Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
@@ -33,7 +35,8 @@ class UomController extends Controller
         return view('materials.uom.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         if (!Auth::user()->hasPermissionTo('UOM Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -55,7 +58,8 @@ class UomController extends Controller
         return redirect()->route('uom.index')->with('custom_success', 'UOM has been Succesfully Created!');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         if (!Auth::user()->hasPermissionTo('UOM Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -66,7 +70,8 @@ class UomController extends Controller
         return view('materials.uom.edit', compact("uom"));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         if (!Auth::user()->hasPermissionTo('UOM Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
@@ -85,23 +90,23 @@ class UomController extends Controller
         $uom->symbol = $request->symbol;
         $uom->save();
         Helper::logSystemActivity('UOM', 'UOM Update');
-        return redirect()->route('uom.index')->with('custom_success', 'UOM has been Succesfully Updated!');        
+        return redirect()->route('uom.index')->with('custom_success', 'UOM has been Succesfully Updated!');
     }
 
-    public function  destroy($id){
+    public function destroy($id)
+    {
 
         if (!Auth::user()->hasPermissionTo('UOM Delete')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
 
         $uom = UOM::find($id);
-        $Materials = Material::whereJsonContains('uom_id', '=', $id)->first();
-        if($Materials){
+        $Materials = Material::whereJsonContains('uom_ids', $id)->first();
+        if ($Materials) {
             return back()->with('custom_errors', 'This UOM is used in MATERIAL!');
         }
         $uom->delete();
         Helper::logSystemActivity('UOM', 'UOM Delete');
         return redirect()->route('uom.index')->with('custom_success', 'UOM has been Succesfully Deleted!');
     }
-
 }
