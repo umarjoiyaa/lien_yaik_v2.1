@@ -51,7 +51,7 @@
                                 <td>{{ $batch->batch_no }}</td>
                                 <td>{{ Carbon\Carbon::parse($batch->planned_start)->format('d-m-Y H:i:s') }}</td>
                                 <td>{{ Carbon\Carbon::parse($batch->planned_end)->format('d-m-Y H:i:s') }}</td>
-                                <td>{{ $batch->duration }}</td>
+                                <td>{{ $batch->duration }} Hour(s)</td>
                                 <td>
                                     <a href="{{ route('batch.edit', $batch->id) }}"><iconify-icon icon="akar-icons:edit"
                                             width="20" height="20" style="color: steelblue;"></iconify-icon></a>
