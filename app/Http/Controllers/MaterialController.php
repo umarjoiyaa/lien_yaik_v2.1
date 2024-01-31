@@ -6,8 +6,10 @@ use App\Helpers\Helper;
 use App\Models\Category;
 use App\Models\Material;
 use App\Models\MaterialIn;
+use App\Models\MaterialInDetail;
 use App\Models\MaterialInventory;
 use App\Models\MaterialOut;
+use App\Models\MaterialOutDetail;
 use App\Models\ProductionOrderDetail;
 use App\Models\PurchaseOrder;
 use App\Models\Supplier;
@@ -128,8 +130,8 @@ class MaterialController extends Controller
         }
 
         $material = Material::find($id);
-        $Material_in = MaterialIn::where('item_id', '=', $id)->first();
-        $Material_out = MaterialOut::where('item_id', '=', $id)->first();
+        $Material_in = MaterialInDetail::where('item_id', '=', $id)->first();
+        $Material_out = MaterialOutDetail::where('item_id', '=', $id)->first();
         $Purchase = PurchaseOrder::whereJsonContains('item_id', '=', $id)->first();
 
         if($Material_in){

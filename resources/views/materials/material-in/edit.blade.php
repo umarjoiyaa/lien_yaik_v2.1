@@ -25,7 +25,7 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label for="">PIC</label>
-                            <input name="pic" value="{{ Auth::user()->name }}" class="form-control">
+                            <input readonly name="pic" value="{{ Auth::user()->name }}" class="form-control">
                         </div>
                     </div>
 

@@ -11,6 +11,8 @@ class MaterialInDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = ['mi_id', 'qty', 'item_id'];
+
     public function item()
     {
         return $this->belongsTo(Material::class, 'item_id', 'id');

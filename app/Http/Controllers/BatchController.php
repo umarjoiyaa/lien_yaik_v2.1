@@ -73,9 +73,8 @@ class BatchController extends Controller
         $start = Carbon::parse($request->planned_start);
         $batch->planned_end = Carbon::parse($request->planned_end);
         $end = Carbon::parse($request->planned_end);
-        $time_diff = $start->diff($end);
-        $time_diff = $time_diff->d . ' Day(s) ' .$time_diff->h . ' Hour(s) ' . $time_diff->i . ' Min(s)';
-        $batch->duration =  $time_diff;
+        $time_diff = $start->diffInHours($end);
+        $batch->duration = $time_diff;
         $batch->save();
 
         Helper::logSystemActivity('Batch', 'Batch Store');
@@ -128,9 +127,8 @@ class BatchController extends Controller
         $start = Carbon::parse($request->planned_start);
         $batch->planned_end = Carbon::parse($request->planned_end);
         $end = Carbon::parse($request->planned_end);
-        $time_diff = $start->diff($end);
-        $time_diff = $time_diff->d . ' Day(s) ' .$time_diff->h . ' Hour(s) ' . $time_diff->i . ' Min(s)';
-        $batch->duration =  $time_diff;
+        $time_diff = $start->diffInHours($end);
+        $batch->duration = $time_diff;
         $batch->save();
 
         Helper::logSystemActivity('Batch', 'Batch Update');

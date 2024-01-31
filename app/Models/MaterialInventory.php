@@ -10,4 +10,6 @@ class MaterialInventory extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = ['value'];
 }
