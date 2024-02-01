@@ -68,9 +68,9 @@
                         <br>
                         <span>{{ $data->order_no }}</span>
                         <br>
-                        <span>{{ $data->order_date }}</span>
+                        <span>{{ Carbon\Carbon::parse($data->order_date)->format('d-m-Y') }}</span>
                         <br>
-                        <span>{{ $data->req_date }}</span>
+                        <span>{{ Carbon\Carbon::parse($data->req_date)->format('d-m-Y') }}</span>
                         <br>
                         <span>{{ $data->order_unit }}</span>
                         <br>
