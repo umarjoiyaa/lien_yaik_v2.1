@@ -113,17 +113,17 @@ class DrillingController extends Controller
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
         $pelletes = Pellete::select('id', 'pellete_no')->get();
+        $drilling = Drilling::find($id);
 
         $batchIdsWithoutDrilling = ProductionOrder::join('purchase_orders', 'purchase_orders.id', '=', 'production_orders.order_id')
-            ->whereNotIn('production_orders.batch_id', function ($query) use ($id) {
+            ->whereNotIn('production_orders.batch_id', function ($query) use ($drilling) {
                 $query->select('drillings.batch_id')->from('drillings')
                 ->whereNull('drillings.deleted_at')
-                ->where('drillings.batch_id', '!=', $id);
+                ->where('drillings.batch_id', '!=', $drilling->id);
             })
             ->pluck('production_orders.batch_id');
         $products = Product::find('id', 'name');
         $batches = Batch::whereIn('id', $batchIdsWithoutDrilling)->get();
-        $drilling = Drilling::find($id);
         $shotblasts = DrillingPellete::where('dr_id', '=', $id)->get();
         $goods = DrillingGoodPellete::where('dr_id', '=', $id)->get();
         $rejects = DrillingRejectPellete::where('dr_id', '=', $id)->get();
@@ -197,6 +197,9 @@ class DrillingController extends Controller
     }
 
     public function destroy($id){
+        if (!Auth::user()->hasPermissionTo('Drilling Delete')) {
+            return back()->with('custom_errors', 'You don`t have Right Permission');
+        }
         $drilling = Drilling::find($id);
         DrillingPellete::where('dr_id', '=', $id)->delete();
         DrillingGoodPellete::where('dr_id', '=', $id)->delete();
@@ -216,10 +219,10 @@ class DrillingController extends Controller
             $shotblast = Shotblast::where('batch_id', $request->id)->first();
             $drillings = Drilling::where('batch_id', $request->id)->get();
 
-            $query = 'SELECT DISTINCT pelletes.id, pelletes.pellete_no, shotblast_details.weight, shotblast_details.pcs FROM shotblast_details INNER JOIN pelletes ON shotblast_details.pellete_id = pelletes.id WHERE sb_id =' . $shotblast->id;
+            $query = 'SELECT DISTINCT pelletes.id, pelletes.pellete_no, shotblast_details.weight, shotblast_details.pcs FROM shotblast_details INNER JOIN pelletes ON shotblast_details.pellete_id = pelletes.id WHERE sb_id =' . $shotblast->id . ' AND shotblast_details.deleted_at IS NULL';
             
             foreach ($drillings as $drilling) {
-                $query .= ' UNION SELECT DISTINCT pelletes.id, pelletes.pellete_no, drilling_good_pelletes.weight, drilling_good_pelletes.pcs FROM drilling_good_pelletes INNER JOIN pelletes ON drilling_good_pelletes.pellete_id = pelletes.id WHERE dr_id =' . $drilling->id . ' AND drilling_good_pelletes.deleted_at IS NULL AND shotblast_details.deleted_at IS NULL';
+                $query .= ' UNION SELECT DISTINCT pelletes.id, pelletes.pellete_no, drilling_good_pelletes.weight, drilling_good_pelletes.pcs FROM drilling_good_pelletes INNER JOIN pelletes ON drilling_good_pelletes.pellete_id = pelletes.id WHERE dr_id =' . $drilling->id . ' AND drilling_good_pelletes.deleted_at IS NULL';
             }
             
             $production = ProductionOrder::where('batch_id', '=', $request->id)->with('product', 'purchaseOrder')->latest()->first();

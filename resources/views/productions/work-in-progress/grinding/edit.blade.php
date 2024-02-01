@@ -147,7 +147,7 @@
                                         </td>
                                         <td><input type="number" name="good[{{ $key }}][weight]"
                                                 value="{{ $good->weight }}" class="form-control weight"></td>
-                                        <td><input type="number" name="good[{{ $key }}][pcs]"
+                                        <td><input readonly type="number" name="good[{{ $key }}][pcs]"
                                                 value="{{ $good->pcs }}" class="form-control pcs"></td>
                                         <td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled"
                                                     width="20" height="20" style="color: red;"></iconify-icon></a>
@@ -194,7 +194,7 @@
                                         </td>
                                         <td><input type="number" name="reject[{{ $key }}][weight]"
                                                 value="{{ $reject->weight }}" class="form-control weight"></td>
-                                        <td><input type="number" name="reject[{{ $key }}][pcs]"
+                                        <td><input readonly type="number" name="reject[{{ $key }}][pcs]"
                                                 value="{{ $reject->pcs }}" class="form-control pcs"></td>
                                         <td><a class="delete_row2"><iconify-icon icon="fluent:delete-dismiss-24-filled"
                                                     width="20" height="20" style="color: red;"></iconify-icon></a>

@@ -120,21 +120,21 @@ class FinalCheckingController extends Controller
     }
 
     public function edit($id){
-        if (!Auth::user()->hasPermissionTo('FinalChecking Edit')) {
+        if (!Auth::user()->hasPermissionTo('Final Checking Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
         $pelletes = Pellete::select('id', 'pellete_no')->get();
+        $final_checking = FinalChecking::find($id);
 
         $batchIdsWithoutFinalChecking = ProductionOrder::join('purchase_orders', 'purchase_orders.id', '=', 'production_orders.order_id')
-            ->whereNotIn('production_orders.batch_id', function ($query) use ($id) {
+            ->whereNotIn('production_orders.batch_id', function ($query) use ($final_checking) {
                 $query->select('final_checkings.batch_id')->from('final_checkings')
                 ->whereNull('final_checkings.deleted_at')
-                ->where('final_checkings.batch_id', '!=', $id);
+                ->where('final_checkings.batch_id', '!=', $final_checking->id);
             })
             ->pluck('production_orders.batch_id');
         $products = Product::find('id', 'name');
         $batches = Batch::whereIn('id', $batchIdsWithoutFinalChecking)->get();
-        $final_checking = FinalChecking::find($id);
         $shotblasts = FinalCheckingPellete::where('fc_id', '=', $id)->get();
         $goods = FinalCheckingGoodPellete::where('fc_id', '=', $id)->get();
         $rejects = FinalCheckingRejectPellete::where('fc_id', '=', $id)->get();
@@ -144,7 +144,7 @@ class FinalCheckingController extends Controller
     }
 
     public function update(Request $request,$id){
-        if (!Auth::user()->hasPermissionTo('FinalChecking Edit')) {
+        if (!Auth::user()->hasPermissionTo('Final Checking Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
 
@@ -219,6 +219,9 @@ class FinalCheckingController extends Controller
     }
 
     public function destroy($id){
+        if (!Auth::user()->hasPermissionTo('Final Checking Delete')) {
+            return back()->with('custom_errors', 'You don`t have Right Permission');
+        }
         $final_checking = FinalChecking::find($id);
         FinalCheckingPellete::where('fc_id', '=', $id)->delete();
         FinalCheckingGoodPellete::where('fc_id', '=', $id)->delete();
@@ -238,10 +241,10 @@ class FinalCheckingController extends Controller
             $shotblast = Shotblast::where('batch_id', $request->id)->first();
             $final_checkings = FinalChecking::where('batch_id', $request->id)->get();
 
-            $query = 'SELECT DISTINCT pelletes.id, pelletes.pellete_no, shotblast_details.weight, shotblast_details.pcs FROM shotblast_details INNER JOIN pelletes ON shotblast_details.pellete_id = pelletes.id WHERE sb_id =' . $shotblast->id;
+            $query = 'SELECT DISTINCT pelletes.id, pelletes.pellete_no, shotblast_details.weight, shotblast_details.pcs FROM shotblast_details INNER JOIN pelletes ON shotblast_details.pellete_id = pelletes.id WHERE sb_id =' . $shotblast->id . ' AND shotblast_details.deleted_at IS NULL';
             
             foreach ($final_checkings as $final_checking) {
-                $query .= ' UNION SELECT DISTINCT pelletes.id, pelletes.pellete_no, final_checking_good_pelletes.weight, final_checking_good_pelletes.pcs FROM final_checking_good_pelletes INNER JOIN pelletes ON final_checking_good_pelletes.pellete_id = pelletes.id WHERE fc_id =' . $final_checking->id . ' AND final_checking_good_pelletes.deleted_at IS NULL AND shotblast_details.deleted_at IS NULL';
+                $query .= ' UNION SELECT DISTINCT pelletes.id, pelletes.pellete_no, final_checking_good_pelletes.weight, final_checking_good_pelletes.pcs FROM final_checking_good_pelletes INNER JOIN pelletes ON final_checking_good_pelletes.pellete_id = pelletes.id WHERE fc_id =' . $final_checking->id . ' AND final_checking_good_pelletes.deleted_at IS NULL';
             }
             
             $production = ProductionOrder::where('batch_id', '=', $request->id)->with('product', 'purchaseOrder')->latest()->first();

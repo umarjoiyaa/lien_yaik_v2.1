@@ -132,7 +132,7 @@ class MaterialController extends Controller
         $material = Material::find($id);
         $Material_in = MaterialInDetail::where('item_id', '=', $id)->first();
         $Material_out = MaterialOutDetail::where('item_id', '=', $id)->first();
-        $Purchase = PurchaseOrder::whereJsonContains('item_id', '=', $id)->first();
+        $Purchase = PurchaseOrder::whereJsonContains('item_id', $id)->first();
 
         if($Material_in){
             return back()->with('custom_errors', 'This MATERIAL is used in MATERIAL IN!');

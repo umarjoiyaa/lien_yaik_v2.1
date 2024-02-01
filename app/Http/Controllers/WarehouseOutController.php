@@ -192,6 +192,9 @@ class WarehouseOutController extends Controller
     }
 
     public function destroy($id){
+        if (!Auth::user()->hasPermissionTo('Warehouse Out Delete')) {
+            return back()->with('custom_errors', 'You don`t have Right Permission');
+        }
         $warehouse_out = WarehouseOut::find($id);
         $details = WarehouseOutDetail::where('wo_id', '=', $id)->get();
         foreach ($details as $value) {
