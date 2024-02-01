@@ -172,14 +172,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/productions/batch/destroy/{id}', [BatchController::class, "destroy"])->name('batch.destroy');
 
     //MACHINE
-    Route::get('/productions/machine/index', [MachineController::class, "index"])->name('machine.index');
-    Route::get('/productions/machine/create', [MachineController::class, "create"])->name('machine.create');
-    Route::post('/productions/machine/store', [MachineController::class, "store"])->name('machine.store');
-    Route::get('/productions/machine/edit/{id}', [MachineController::class, "edit"])->name('machine.edit');
-    Route::post('/productions/machine/update/{id}', [MachineController::class, "update"])->name('machine.update');
-    Route::get('/productions/machine/limit/{id}', [MachineController::class, "limit"])->name('machine.limit');
-    Route::post('/productions/machine/limit_set/{id}', [MachineController::class, "limit_set"])->name('machine.limit_set');
-    Route::get('/productions/machine/destroy/{id}', [MachineController::class, "destroy"])->name('machine.destroy');
+    // Route::get('/productions/machine/index', [MachineController::class, "index"])->name('machine.index');
+    // Route::get('/productions/machine/create', [MachineController::class, "create"])->name('machine.create');
+    // Route::post('/productions/machine/store', [MachineController::class, "store"])->name('machine.store');
+    // Route::get('/productions/machine/edit/{id}', [MachineController::class, "edit"])->name('machine.edit');
+    // Route::post('/productions/machine/update/{id}', [MachineController::class, "update"])->name('machine.update');
+    // Route::get('/productions/machine/limit/{id}', [MachineController::class, "limit"])->name('machine.limit');
+    // Route::post('/productions/machine/limit_set/{id}', [MachineController::class, "limit_set"])->name('machine.limit_set');
+    // Route::get('/productions/machine/destroy/{id}', [MachineController::class, "destroy"])->name('machine.destroy');
 
     //PURCHASE ORDER
     Route::get('/productions/purchase-order/pdf/{id}', [PurchaseOrderController::class, "pdf"])->name('purchase.pdf');

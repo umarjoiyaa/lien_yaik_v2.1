@@ -179,12 +179,12 @@
 
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a class="sidenav-item-link" href="{{ route('machine.index') }}">
                                             <span class="nav-text">Machine</span>
 
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <a class="sidenav-item-link" href="{{ route('purchase.index') }}">
                                             <span class="nav-text">Purchase Order</span>
