@@ -125,7 +125,7 @@
                                         <td><input type="hidden" value="{{ $detail->pellete_id }}"
                                                 name="pelletes[{{ $key }}][id]">{{ $detail->pellete->pellete_no }}
                                         </td>
-                                        <td><input readonly type="number" name="pelletes[{{ $key }}][weight]"
+                                        <td><input type="number" name="pelletes[{{ $key }}][weight]"
                                                 value="{{ $detail->weight }}" class="form-control weight"></td>
                                         <td><input readonly type="number" name="pelletes[{{ $key }}][pcs]"
                                                 value="{{ $detail->pcs }}" class="form-control pcs"></td>

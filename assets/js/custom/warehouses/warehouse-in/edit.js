@@ -25,7 +25,7 @@ function addPellete(value) {
                 } else {
                     $length = $('#myTable1 tbody tr').length;
                     $('#myTable1').dataTable().fnDestroy();
-                    $('#myTable1 tbody').append(`<tr><td><input value="${data.pellete.id}" hidden name="pelletes[${$length}][id]" class="form-control pellete_id">${data.pellete.pellete_no}</td><td><input readonly name="pelletes[${$length}][weight]" type="number" value="${data.pellete.weight}" class="form-control weight" id="weight_${$length}}"></td><td><input readonly name="pelletes[${$length}][pcs]" type="number" class="form-control pcs" value="${data.pellete.pcs}"></td><td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
+                    $('#myTable1 tbody').append(`<tr><td><input value="${data.pellete.id}" hidden name="pelletes[${$length}][id]" class="form-control pellete_id">${data.pellete.pellete_no}</td><td><input name="pelletes[${$length}][weight]" type="number" value="${data.pellete.weight}" class="form-control weight" id="weight_${$length}}"></td><td><input readonly name="pelletes[${$length}][pcs]" type="number" class="form-control pcs" value="${data.pellete.pcs}"></td><td><a class="delete_row1"><iconify-icon icon="fluent:delete-dismiss-24-filled" width="20" height="20" style="color: red;"></iconify-icon><a></td></tr>`);
                     $('#myTable1').dataTable();
                     pallet_id.push(data.pellete.id);
                     $('#pallet_error').find('ul').remove();
