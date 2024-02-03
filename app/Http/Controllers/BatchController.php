@@ -55,7 +55,7 @@ class BatchController extends Controller
                     if ($request->filled('planned_end')) {
                         $planned_end = $request->input('planned_end');
 
-                        if (strtotime($value) >= strtotime($planned_end)) {
+                        if (strtotime($value) > strtotime($planned_end)) {
                             $fail('The :attribute must be less than planned_end.');
                         }
                     }
@@ -109,7 +109,7 @@ class BatchController extends Controller
                     if ($request->filled('planned_end')) {
                         $planned_end = $request->input('planned_end');
 
-                        if (strtotime($value) >= strtotime($planned_end)) {
+                        if (strtotime($value) > strtotime($planned_end)) {
                             $fail('The :attribute must be less than planned_end.');
                         }
                     }

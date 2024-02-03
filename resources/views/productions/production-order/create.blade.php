@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="" class="form-label">Used Quantity</label>
-                        <input type="text" name="used_quantity" id="used_qty" value="{{ old('used_quantity') }}" class="form-control">
+                        <input type="number" name="used_quantity" id="used_qty" value="{{ old('used_quantity') }}" class="form-control">
                     </div>
                 </div>
 
