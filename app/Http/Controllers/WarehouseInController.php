@@ -131,8 +131,6 @@ class WarehouseInController extends Controller
 
         $total_pcs = 0;
         
-        $delete = WarehouseInDetail::where('wi_id', '=', $id);
-
         foreach ($request->pelletes as $value) {
             $warehouse_in_details = new WarehouseInDetail();
             $warehouse_in_details->pellete_id = $value['id'];
@@ -154,6 +152,8 @@ class WarehouseInController extends Controller
             $pellete->product_id = $product[0];
             $pellete->save();
             
+            $deduct_qty->delete();
+            
             $actual = Pellete::find($value['id']);
             $actual->previous_batch = $actual->batch;
             $actual->previous_weight = $actual->weight;
@@ -166,8 +166,6 @@ class WarehouseInController extends Controller
 
             $total_pcs += $value['pcs'];
         }
-
-        $delete->delete();
 
         $warehouse_in_update = WarehouseIn::find($warehouse_in->id);
         $warehouse_in_update->total_pcs = $total_pcs;

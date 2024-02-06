@@ -131,8 +131,6 @@ class WarehouseOutController extends Controller
 
         $total_pcs = 0;
         
-        $delete = WarehouseOutDetail::where('wo_id', '=', $id);
-
         foreach ($request->pelletes as $value) {
             $warehouse_out_details = new WarehouseOutDetail();
             $warehouse_out_details->pellete_id = $value['id'];
@@ -154,6 +152,8 @@ class WarehouseOutController extends Controller
             $pallet->product_id = $product[0];
             $pallet->save();
             
+            $deduct_qty->delete();
+
             $actual = Pellete::find($value['id']);
             $actual->previous_batch = $actual->batch;
             $actual->previous_weight = $actual->weight;
@@ -166,8 +166,6 @@ class WarehouseOutController extends Controller
 
             $total_pcs += $value['pcs'];
         }
-
-        $delete->delete();
 
         $warehouse_out_update = WarehouseOut::find($warehouse_out->id);
         $warehouse_out_update->total_pcs = $total_pcs;
