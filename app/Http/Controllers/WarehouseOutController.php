@@ -131,14 +131,7 @@ class WarehouseOutController extends Controller
 
         $total_pcs = 0;
         
-        foreach ($request->pelletes as $value) {
-            $warehouse_out_details = new WarehouseOutDetail();
-            $warehouse_out_details->pellete_id = $value['id'];
-            $warehouse_out_details->wo_id = $warehouse_out->id;
-            $warehouse_out_details->weight = $value['weight'] ?? 0;
-            $warehouse_out_details->pcs = $value['pcs'] ?? 0;
-            $warehouse_out_details->save();
-            
+        foreach ($request->pelletes as $value) {            
             $product = ProductionOrder::distinct('product_id')
             ->join('warehouse_outs', 'warehouse_outs.batch_id', '=', 'production_orders.batch_id')
             ->where('warehouse_outs.id', $warehouse_out->id)
@@ -153,6 +146,13 @@ class WarehouseOutController extends Controller
             $pallet->save();
             
             $deduct_qty->delete();
+
+            $warehouse_out_details = new WarehouseOutDetail();
+            $warehouse_out_details->pellete_id = $value['id'];
+            $warehouse_out_details->wo_id = $warehouse_out->id;
+            $warehouse_out_details->weight = $value['weight'] ?? 0;
+            $warehouse_out_details->pcs = $value['pcs'] ?? 0;
+            $warehouse_out_details->save();
 
             $actual = Pellete::find($value['id']);
             $actual->previous_batch = $actual->batch;
