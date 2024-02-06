@@ -9,6 +9,7 @@ use App\Models\Pellete;
 use App\Models\ProductionOrder;
 use App\Models\WarehouseOut;
 use App\Models\WarehouseOutDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,14 +33,7 @@ class WarehouseOutController extends Controller
         if (!Auth::user()->hasPermissionTo('WareHouse Out Create')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-
-        $batchIdsWithoutWarehouseOut = ProductionOrder::join('purchase_orders', 'purchase_orders.id', '=', 'production_orders.order_id')
-            ->whereNotIn('production_orders.batch_id', function ($query) {
-                $query->select('warehouse_outs.batch_id')->from('warehouse_outs')
-                ->whereNull('warehouse_outs.deleted_at');
-            })
-            ->pluck('production_orders.batch_id');
-        $batches = Batch::whereIn('id', $batchIdsWithoutWarehouseOut)->get();
+        $batches = Batch::all();
         Helper::logSystemActivity('WareHouse Out', 'WareHouse Out Create');
         return view('warehouses.warehouse-out.create', compact('batches'));
     }
@@ -108,15 +102,7 @@ class WarehouseOutController extends Controller
         if (!Auth::user()->hasPermissionTo('WareHouse Out Edit')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-
-        $batchIdsWithoutWarehouseOut = ProductionOrder::join('purchase_orders', 'purchase_orders.id', '=', 'production_orders.order_id')
-            ->whereNotIn('production_orders.batch_id', function ($query) use ($id) {
-                $query->select('warehouse_outs.batch_id')->from('warehouse_outs')
-                ->whereNull('warehouse_outs.deleted_at')
-                ->where('warehouse_outs.batch_id', '!=', $id);
-            })
-            ->pluck('production_orders.batch_id');
-        $batches = Batch::whereIn('id', $batchIdsWithoutWarehouseOut)->get();
+        $batches = Batch::all();
 
         $warehouse_out = WarehouseOut::find($id);
         $details = WarehouseOutDetail::where('wo_id', '=', $id)->with('pellete')->get();
@@ -192,7 +178,7 @@ class WarehouseOutController extends Controller
     }
 
     public function destroy($id){
-        if (!Auth::user()->hasPermissionTo('Warehouse Out Delete')) {
+        if (!Auth::user()->hasPermissionTo('WareHouse Out Delete')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
         $warehouse_out = WarehouseOut::find($id);
