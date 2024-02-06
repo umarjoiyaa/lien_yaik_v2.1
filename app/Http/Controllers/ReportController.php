@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Pellete;
-use App\Models\WarehouseIn;
-use App\Models\WarehouseOut;
 use Illuminate\Http\Request;
 use App\Models\WarehouseInDetail;
 use App\Models\WarehouseOutDetail;

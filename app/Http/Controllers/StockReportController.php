@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class StockReportController extends Controller
@@ -18,11 +17,11 @@ class StockReportController extends Controller
     {
         $draw = $_POST['draw'];
         $row = $_POST['start'];
-        $rowperpage = $_POST['length'];
-        $columnIndex = $_POST['order'][0]['column'];
-        $columnName = $_POST['columns'][$columnIndex]['data'];
-        $columnSortOrder = $_POST['order'][0]['dir'];
-        $searchValue = $_POST['search']['value'];
+        $rowperpage = $_POST['length']; // Rows display per page
+        $columnIndex = $_POST['order'][0]['column']; // Column index
+        $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
+        $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
+        $searchValue = $_POST['search']['value']; // Search value
 
         ## Custom Field value
         $searchByName = $_POST['searchByName'];
@@ -32,11 +31,14 @@ class StockReportController extends Controller
 
         ## Search 
         $searchQuery = " ";
+        if($searchValue != ''){
+            $searchQuery .= " and (pelletes.pellete_no like '%".$searchValue."%' ) or (products.name like '%".$searchValue."%' ) or (inventories.value like '%".$searchValue."%' ) or (inventories.weight like '%".$searchValue."%' ) ";
+        }
         if($searchByName != ''){
             $searchQuery .= " and (pelletes.pellete_no like '%".$searchByName."%' ) ";
         }
         if($searchByPartName != ''){
-            $searchQuery .= " and (products.part_name like '%".$searchByPartName."%' ) ";
+            $searchQuery .= " and (products.name like '%".$searchByPartName."%' ) ";
         }
         if($searchByValue != ''){
             $searchQuery .= " and (inventories.value".$searchUsingComparator.$searchByValue.") ";
@@ -51,41 +53,15 @@ class StockReportController extends Controller
         $totalRecordwithFilter = $records[0]->allcount;
 
         ## Fetch records
-        $searchLower = strtolower($searchValue);
-
-        $data = DB::select("
-            SELECT 
-                pelletes.pellete_no,
-                inventories.value AS pcs,
-                inventories.weight,
-                products.name AS part_name
-            FROM 
-                pelletes 
-            INNER JOIN 
-                inventories ON pelletes.id = inventories.pellete_id 
-            INNER JOIN 
-                products ON products.id = inventories.product_id 
-            WHERE 
-                1 " . $searchQuery . " 
-                AND (
-                    LOWER(pelletes.pellete_no) LIKE '%" . $searchLower . "%' OR
-                    LOWER(inventories.value) LIKE '%" . $searchLower . "%' OR
-                    LOWER(inventories.weight) LIKE '%" . $searchLower . "%' OR
-                    LOWER(products.name) LIKE '%" . $searchLower . "%'
-                ) 
-            ORDER BY 
-                " . $columnName . " " . $columnSortOrder . " 
-            LIMIT 
-                " . $row . "," . $rowperpage
-        );
+        $data = DB::select("select pelletes.pellete_no,inventories.value,inventories.weight,products.name from pelletes inner join inventories on pelletes.id = inventories.pellete_id inner join products on products.id = inventories.product_id WHERE 1 ".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage);
 
         ## Response
         $response = array(
-            "draw" => intval($draw),
-            "iTotalRecords" => $totalRecords,
-            "iTotalDisplayRecords" => $totalRecordwithFilter,
-            "aaData" => $data,
-            "destroy" => true
+        "draw" => intval($draw),
+        "iTotalRecords" => $totalRecords,
+        "iTotalDisplayRecords" => $totalRecordwithFilter,
+        "aaData" => $data,
+        "destroy" => true
         );
 
         return json_encode($response);

@@ -44,10 +44,10 @@ function ajax_call() {
                 data: 'pellete_no'
             },
             {
-                data: 'part_name'
+                data: 'name'
             },
             {
-                data: 'pcs'
+                data: 'value'
             },
             {
                 data: 'weight'
