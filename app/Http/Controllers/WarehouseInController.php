@@ -146,7 +146,7 @@ class WarehouseInController extends Controller
             ->where('warehouse_ins.id', $warehouse_in->id)
             ->pluck('product_id');
 
-            $deduct_qty = WarehouseInDetail::where('wi_id', '=', $id)->where('product_id', '=', $product[0]->id)->first();
+            $deduct_qty = WarehouseInDetail::where('wi_id', '=', $id)->where('product_id', '=', $product[0])->first();
 
             $pellete = Inventory::where('pellete_id', $value['id'])->first();
             $pellete->value = (float)$pellete->value + ((float)$value["pcs"] - (float)$deduct_qty->pcs);

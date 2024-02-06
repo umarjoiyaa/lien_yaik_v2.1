@@ -140,13 +140,13 @@ class WarehouseOutController extends Controller
             $warehouse_out_details->weight = $value['weight'] ?? 0;
             $warehouse_out_details->pcs = $value['pcs'] ?? 0;
             $warehouse_out_details->save();
-
+            
             $product = ProductionOrder::distinct('product_id')
             ->join('warehouse_outs', 'warehouse_outs.batch_id', '=', 'production_orders.batch_id')
             ->where('warehouse_outs.id', $warehouse_out->id)
             ->pluck('product_id');
 
-            $deduct_qty = WarehouseOutDetail::where('wo_id', '=', $id)->where('product_id', '=', $product[0]->id)->first();
+            $deduct_qty = WarehouseOutDetail::where('wo_id', '=', $id)->where('product_id', '=', $product[0])->first();
 
             $pallet = Inventory::where('pellete_id', $value['id'])->first();
             $pallet->value = (float)$pallet->value - ((float)$value["pcs"] + (float)$deduct_qty->pcs);
