@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div id="productionGraph" style="height: 25vh;"></div>
+                <div id="productionGraph" style="height: 50vh;"></div>
             </div>
         </div>
     </div>
