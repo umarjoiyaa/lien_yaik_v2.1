@@ -35,12 +35,12 @@ class DashboardController extends Controller
         foreach ($results as $result) {
             $date = $result->created_at->format('d-m-Y');
             $batch = $result->batch;
-            $final = $batch->finalChecking;
-            $warehouse = $batch->warehouseIn;
-            $customer = $batch->productionOrder;
+            $final = $batch->finalChecking ?? null;
+            $warehouse = $batch->warehouseIn ?? null;
+            $customer = $batch->productionOrder ?? null;
             $purchase = $customer->purchaseOrder ?? null;
 
-            $batches = $batch->batch_no;
+            $batches = $batch->batch_no ?? null;
             $total_cavity = $result->sum_cavity;
             $weight = $final ? $final->total_good_weight : "0";
             $pcs = $final ? $final->total_good_pcs : "0";

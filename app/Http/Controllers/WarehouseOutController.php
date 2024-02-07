@@ -72,8 +72,8 @@ class WarehouseOutController extends Controller
             ->pluck('product_id');
 
             $pallet = Inventory::where('pellete_id', $value['id'])->first();
-            $pallet->value = (float)$pallet->value - (float)$value["pcs"];
-            $pallet->weight = (float)$pallet->weight - (float)$value["weight"];
+            $pallet->value = ((float)$pallet->value - (float)$value["pcs"] < 0) ? 0 : (float)$pallet->value - (float)$value["pcs"];
+            $pallet->weight = ((float)$pallet->weight - (float)$value["weight"] < 0) ? 0 : (float)$pallet->weight - (float)$value["weight"];
             $pallet->product_id = $product[0];
             $pallet->save();
             
@@ -140,8 +140,8 @@ class WarehouseOutController extends Controller
             $deduct_qty = WarehouseOutDetail::where('wo_id', '=', $id)->where('product_id', '=', $product[0])->first();
 
             $pallet = Inventory::where('pellete_id', $value['id'])->first();
-            $pallet->value = (float)$pallet->value - ((float)$value["pcs"] + (float)$deduct_qty->pcs);
-            $pallet->weight = (float)$pallet->weight - ((float)$value["weight"] + (float)$deduct_qty->weight);
+            $pallet->value = ((float)$pallet->value - ((float)$value["pcs"] + (float)$deduct_qty->pcs) < 0) ? 0 : (float)$pallet->value - ((float)$value["pcs"] + (float)$deduct_qty->pcs);
+            $pallet->weight = ((float)$pallet->weight - ((float)$value["weight"] + (float)$deduct_qty->weight) < 0) ? 0 : (float)$pallet->weight - ((float)$value["weight"] + (float)$deduct_qty->weight);
             $pallet->product_id = $product[0];
             $pallet->save();
             
@@ -184,8 +184,8 @@ class WarehouseOutController extends Controller
         foreach ($details as $value) {
             $deduct_qty = WarehouseOutDetail::where('wo_id', '=', $id)->where('pellete_id', '=', $value->pellete_id)->first();
             $pellete = Inventory::where('pellete_id', '=', $value->pellete_id)->first();
-            $pellete->value = (float)$pellete->value + (float)$deduct_qty->pcs;
-            $pellete->weight = (float)$pellete->weight + (float)$deduct_qty->weight;
+            $pellete->value = ((float)$pellete->value + (float)$deduct_qty->pcs < 0) ? 0 : (float)$pellete->value + (float)$deduct_qty->pcs;
+            $pellete->weight = ((float)$pellete->weight + (float)$deduct_qty->weight < 0) ? 0 : (float)$pellete->weight + (float)$deduct_qty->weight;
             $pellete->save();
         }
         WarehouseOutDetail::where('wo_id', '=', $id)->delete();

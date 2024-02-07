@@ -16,7 +16,7 @@
                 <form action="{{ route('report.get') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="">SELECT (FROM - TO)</label>
                                 <input id='daterangepicker' class="form-control text-center"

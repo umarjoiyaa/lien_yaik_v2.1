@@ -58,7 +58,7 @@
             var endDate = picker.endDate.format('YYYY-MM-DD');
             getData(startDate, endDate);
         });
-
+        getData();
         function getData(startDate, endDate) {
             $.ajax({
                 url: "{{ route('dashboard.get') }}",
@@ -74,6 +74,6 @@
             });
         }
 
-        setInterval(getData, 10000);
+        // setInterval(getData, 10000);
     </script>
 @endpush

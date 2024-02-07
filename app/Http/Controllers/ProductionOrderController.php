@@ -117,7 +117,7 @@ class ProductionOrderController extends Controller
 
             $total = ($value['required']) ? $value['required'] : 0;
             $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
-            $stock->value = (float)$stock->value - (float)$total;
+            $stock->value = ((float)$stock->value - (float)$total < 0) ? 0 : (float)$stock->value - (float)$total;
             $stock->save();
         }
 
@@ -207,7 +207,7 @@ class ProductionOrderController extends Controller
             $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value['id'])->first();
             $total = ($value['required']) ? $value['required'] : 0;
             $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
-            $stock->value = (float)$stock->value - ((float)$total + (float)$deduct_qty->required);
+            $stock->value = ((float)$stock->value - ((float)$total + (float)$deduct_qty->required) < 0) ? 0 : (float)$stock->value - ((float)$total + (float)$deduct_qty->required);
             $stock->save();
 
             $deduct_qty->delete();
@@ -238,7 +238,7 @@ class ProductionOrderController extends Controller
         foreach ($details as $value) {
             $deduct_qty = ProductionOrderDetail::where('po_id', '=', $id)->where('item_id', '=', $value->item_id)->first();
             $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();
-            $stock->value = (float)$stock->value + (float)$deduct_qty->required;
+            $stock->value = ((float)$stock->value + (float)$deduct_qty->required < 0) ? 0 : (float)$stock->value + (float)$deduct_qty->required;
             $stock->save();
         }
         ProductionOrderDetail::where('po_id', '=', $id)->delete();

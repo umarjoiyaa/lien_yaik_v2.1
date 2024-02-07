@@ -80,7 +80,7 @@ class MaterialOutController extends Controller
 
             $total = ($value['qty'] <= 0) ? 1 : $value['qty'];
             $stock = MaterialInventory::where('item_id', '=', $value['id'])->first();
-            $stock->value = (float)$stock->value - (float)$total;
+            $stock->value = ((float)$stock->value - (float)$total < 0) ? 0 : (float)$stock->value - (float)$total;
             $stock->save();
         }
 
@@ -145,7 +145,7 @@ class MaterialOutController extends Controller
             $retVal = optional($deductQty)->qty ?? 0;
 
             $stock->update([
-                'value' => $stock->value - ($total - $retVal)
+                'value' => (($stock->value - ($total - $retVal)) < 0) ? 0 : $stock->value - ($total - $retVal),
             ]);
 
             if ($deductQty) {
@@ -179,7 +179,7 @@ class MaterialOutController extends Controller
         foreach ($details as $value) {
             $deduct_qty = MaterialOutDetail::where('mo_id', '=', $id)->where('item_id', '=', $value->item_id)->first();
             $stock = MaterialInventory::where('item_id', '=', $value->item_id)->first();
-            $stock->value = (float)$stock->value + (float)$deduct_qty->qty;
+            $stock->value = ((float)$stock->value + (float)$deduct_qty->qty < 0) ? 0 : (float)$stock->value + (float)$deduct_qty->qty;
             $stock->save();
         }
         MaterialOutDetail::where('mo_id', '=', $id)->delete();
