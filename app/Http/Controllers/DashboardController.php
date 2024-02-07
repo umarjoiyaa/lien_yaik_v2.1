@@ -45,7 +45,7 @@ class DashboardController extends Controller
             $weight = $final ? $final->total_good_weight : "0";
             $pcs = $final ? $final->total_good_pcs : "0";
             $warehousepcs = $warehouse ? $warehouse->total_pcs : "0";
-            $name = $purchase ? $purchase->customer_name : "";
+            $name = $purchase ? $purchase->customer : "";
 
             $output .= '<tr><td>' . $date . '</td><td>' . $batches . '</td><td>' . $name . '</td><td>' . $total_cavity . '</td><td>' . $weight . '</td><td>' . $pcs . '</td><td>' . $warehousepcs . '</td></tr>';
         }
