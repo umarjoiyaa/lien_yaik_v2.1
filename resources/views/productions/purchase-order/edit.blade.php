@@ -93,7 +93,7 @@
                     <div class="col-sm-3">
                         <label for="" class="form-label">Unit KG</label>
                         <input type="number" name="unit_kg" id="input2" class="form-control"
-                            value="{{ $purchase->unit_kg }}">
+                            value="{{ $purchase->unit_kg }}" step="0.01">
                     </div>
                     <div class="col-sm-3">
                         <label for="" class="form-label">Weight</label>
