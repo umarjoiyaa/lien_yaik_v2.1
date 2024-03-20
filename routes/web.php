@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/productions/purchase-order/review/{id}', [NotificationController::class, "review"])->name('notification.review');
     Route::get('/productions/purchase-order/accept/{id}', [NotificationController::class, "accept"])->name('purchase.accept');
     Route::get('/productions/purchase-order/reject/{id}', [NotificationController::class, "reject"])->name('purchase.reject');
-    
+
     //DASHBOARD
     Route::get('/dashboard/main', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/main/get', [DashboardController::class, 'get'])->name('dashboard.get');
@@ -242,7 +242,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/productions/in-progress/final-checking/update/{id}', [FinalCheckingController::class, "update"])->name('final-checking.update');
     Route::get('/productions/in-progress/final-checking/destroy/{id}', [FinalCheckingController::class, "destroy"])->name('final-checking.destroy');
     Route::get('/productions/in-progress/final-checking/pelletes/get', [FinalCheckingController::class, "pelletes"])->name('pelletes.final-checking.get');
-    
+
     //PELLETE
     Route::get('/warehouses/pellete/index', [PelleteController::class, "index"])->name('pellete.index');
     Route::get('/warehouses/pellete/create', [PelleteController::class, "create"])->name('pellete.create');
@@ -252,25 +252,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/warehouses/pellete/destroy/{id}', [PelleteController::class, "destroy"])->name('pellete.destroy');
 
     //WAREHOUSE IN
-    Route::get('/productions/in-progress/warehouse-in/index', [WarehouseInController::class, "index"])->name('warehouse-in.index');
-    Route::get('/productions/in-progress/warehouse-in/create', [WarehouseInController::class, "create"])->name('warehouse-in.create');
-    Route::post('/productions/in-progress/warehouse-in/store', [WarehouseInController::class, "store"])->name('warehouse-in.store');
-    Route::get('/productions/in-progress/warehouse-in/edit/{id}', [WarehouseInController::class, "edit"])->name('warehouse-in.edit');
-    Route::post('/productions/in-progress/warehouse-in/update/{id}', [WarehouseInController::class, "update"])->name('warehouse-in.update');
-    Route::get('/productions/in-progress/warehouse-in/destroy/{id}', [WarehouseInController::class, "destroy"])->name('warehouse-in.destroy');
-    Route::get('/productions/in-progress/warehouse/batches/get', [WarehouseInController::class, "batches"])->name('batches.warehouse.get');
-    Route::get('/productions/in-progress/warehouse/pelletes/get', [WarehouseInController::class, "pelletes"])->name('pelletes.warehouse.get');
-    Route::get('/productions/in-progress/warehouse-in/scan/{id}', [WarehouseInController::class, "scan"])->name('warehouse-in.scan');
+    Route::get('/warehouses/warehouse-in/index', [WarehouseInController::class, "index"])->name('warehouse-in.index');
+    Route::get('/warehouses/warehouse-in/create', [WarehouseInController::class, "create"])->name('warehouse-in.create');
+    Route::post('/warehouses/warehouse-in/store', [WarehouseInController::class, "store"])->name('warehouse-in.store');
+    Route::get('/warehouses/warehouse-in/edit/{id}', [WarehouseInController::class, "edit"])->name('warehouse-in.edit');
+    Route::post('/warehouses/warehouse-in/update/{id}', [WarehouseInController::class, "update"])->name('warehouse-in.update');
+    Route::get('/warehouses/warehouse-in/destroy/{id}', [WarehouseInController::class, "destroy"])->name('warehouse-in.destroy');
+    Route::get('/warehouses/warehouse/batches/get', [WarehouseInController::class, "batches"])->name('batches.warehouse.get');
+    Route::get('/warehouses/warehouse/pelletes/get', [WarehouseInController::class, "pelletes"])->name('pelletes.warehouse.get');
+    Route::get('/warehouses/warehouse-in/scan/{id}', [WarehouseInController::class, "scan"])->name('warehouse-in.scan');
 
 
     //WAREHOUSE OUT
-    Route::get('/productions/in-progress/warehouse-out/index', [WarehouseOutController::class, "index"])->name('warehouse-out.index');
-    Route::get('/productions/in-progress/warehouse-out/create', [WarehouseOutController::class, "create"])->name('warehouse-out.create');
-    Route::post('/productions/in-progress/warehouse-out/store', [WarehouseOutController::class, "store"])->name('warehouse-out.store');
-    Route::get('/productions/in-progress/warehouse-out/edit/{id}', [WarehouseOutController::class, "edit"])->name('warehouse-out.edit');
-    Route::post('/productions/in-progress/warehouse-out/update/{id}', [WarehouseOutController::class, "update"])->name('warehouse-out.update');
-    Route::get('/productions/in-progress/warehouse-out/destroy/{id}', [WarehouseOutController::class, "destroy"])->name('warehouse-out.destroy');
-    Route::get('/productions/in-progress/warehouse-out/scan/{id}', [WarehouseOutController::class, "scan"])->name('warehouse-out.scan');
+    Route::get('/warehouses/warehouse-out/index', [WarehouseOutController::class, "index"])->name('warehouse-out.index');
+    Route::get('/warehouses/warehouse-out/create', [WarehouseOutController::class, "create"])->name('warehouse-out.create');
+    Route::post('/warehouses/warehouse-out/store', [WarehouseOutController::class, "store"])->name('warehouse-out.store');
+    Route::get('/warehouses/warehouse-out/edit/{id}', [WarehouseOutController::class, "edit"])->name('warehouse-out.edit');
+    Route::post('/warehouses/warehouse-out/update/{id}', [WarehouseOutController::class, "update"])->name('warehouse-out.update');
+    Route::get('/warehouses/warehouse-out/destroy/{id}', [WarehouseOutController::class, "destroy"])->name('warehouse-out.destroy');
+    Route::get('/warehouses/warehouse-out/scan/{id}', [WarehouseOutController::class, "scan"])->name('warehouse-out.scan');
 
     //CHECK PELLETE
     Route::get('/warehouses/check-pellete/index', [CheckPelleteController::class, "index"])->name('check-pellete.index');
