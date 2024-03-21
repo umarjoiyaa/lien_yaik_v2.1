@@ -21,7 +21,7 @@ class MachineDashboardController extends Controller
         if (!Auth::user()->hasPermissionTo('Machine Dashboard')) {
             return back()->with('custom_errors', 'You don`t have Right Permission');
         }
-        
+
         Helper::logSystemActivity('Machine Dashboard', 'View Machine Dashboard');
         return view('dashboard.machine.index');
     }
@@ -31,7 +31,7 @@ class MachineDashboardController extends Controller
         $machine_data = array();
         $machines = Machine::select('id', 'name')->get();
         foreach ($machines as $machine) {
-            
+
             $current_temp = TemperatureMoistureApi::where('machine_id', '=', $machine->id)->whereNull('end_time')->orderBy('id', 'DESC')->first();
             $set_temp = TemperatureMoisture::where('machine_id', '=', $machine->id)->first();
 
@@ -42,7 +42,7 @@ class MachineDashboardController extends Controller
             }else{
                 $machine_data[$machine->name]['temp'] = $current_temp->temperature;
                 $machine_data[$machine->name]['moisture'] = $current_temp->moisture;
-                
+
                 if(isset($set_temp)){
                     if(!empty($set_temp->temp_high || $set_temp->temp_low)){
 
@@ -60,7 +60,7 @@ class MachineDashboardController extends Controller
                 }else{
                     $machine_data[$machine->name]['check_temp'] = "";
                 }
-                
+
                 if(isset($set_temp)){
 
                     if(!empty($set_temp->moisture_high || $set_temp->moisture_low)){
@@ -82,7 +82,7 @@ class MachineDashboardController extends Controller
             }
 
             $press = PressDetail::WhereNull('end_time')->where('machine_id', '=', $machine->id)->latest('start_time')->first();
-            
+
             if(empty($press)){
                 $machine_data[$machine->name]['batch'] = null;
                 $machine_data[$machine->name]['status'] = "Stopped";
@@ -94,7 +94,7 @@ class MachineDashboardController extends Controller
             }else{
 
                 $sumCavityTotal = MachineApiSum::where('machine_id', '=', $machine->id)->where('batch_id', '=', $press->batch_id)->sum('sum_cavity');
-                
+
                 $batch = Batch::find($press->batch_id);
                 $machine_data[$machine->name]['batch'] = $batch->batch_no;
                 $machine_data[$machine->name]['status'] = "On Going";
@@ -105,6 +105,7 @@ class MachineDashboardController extends Controller
                     $machine_data[$machine->name]['target'] = 0;
                     $machine_data[$machine->name]['current'] = 0;
                     $machine_data[$machine->name]['planned'] = 0;
+                    $machine_data[$machine->name]['mold'] = 0;
                 }else{
                     $machine_data[$machine->name]['target'] = $production->target_need;
                     $machine_data[$machine->name]['current'] = $production->target_produce;
@@ -117,9 +118,9 @@ class MachineDashboardController extends Controller
                 }
 
             }
-            
+
         }
-       
+
         return response()->json($machine_data);
     }
 }
